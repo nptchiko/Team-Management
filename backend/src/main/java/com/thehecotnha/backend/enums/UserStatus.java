@@ -1,4 +1,5 @@
 package com.thehecotnha.backend.enums;
 
-public class UserStatus {
+public enum UserStatus {
+    ACTIVE, INACTIVE
 }

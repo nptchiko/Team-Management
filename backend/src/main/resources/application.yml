@@ -1,1 +1,40 @@
-spring.application.name=backend
+
+spring:
+  application:
+    name: Jiraa
+    #profiles:
+    # //active: @spring.profiles.active@
+  datasource:
+    username: postgres
+    password: 17071134
+    url: "jdbc:postgresql://db.norissiitgapzzkpzxgx.supabase.co:5432/postgres?user=postgres&password=17071134"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always
+#
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: haycuoinhieuhon1412@gmail.com
+#    password: oead fvby qxfh vjiz
+#    properties:
+#      mail:
+#        debug: true
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#          #     connectiontimeout: 5000
+#          timeout: 3000
+#      #    writetimeout: 5000
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
