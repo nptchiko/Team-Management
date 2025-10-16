@@ -1,12 +1,12 @@
-package com.thehecotnha.backend.entity;
+package com.thehecotnha.backend.entity.user;
 
 
 import com.thehecotnha.backend.enums.Role;
 import com.thehecotnha.backend.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users")
 public class User {
 

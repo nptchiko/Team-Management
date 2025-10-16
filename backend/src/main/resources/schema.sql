@@ -97,10 +97,12 @@ CREATE TABLE USER_PROJECT_LEAD (
 CREATE TABLE USER_PROJECT_PARTICIPATE (
                                           project_id INT NOT NULL,
                                           user_id INT NOT NULL,
+                                          team_id INT NULL ,
                                           joined_date TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP,
                                           PRIMARY KEY (project_id, user_id),
                                           FOREIGN KEY (project_id) REFERENCES PROJECT(project_id) ON DELETE CASCADE,
-                                          FOREIGN KEY (user_id) REFERENCES USERS(user_id) ON DELETE CASCADE
+                                          FOREIGN KEY (user_id) REFERENCES USERS(user_id) ON DELETE CASCADE,
+                                          FOREIGN KEY (team_id) REFERENCES TEAM(team_id)
 );
 CREATE TABLE USER_TASK_ASSIGN (
                                   task_id INT NOT NULL,
