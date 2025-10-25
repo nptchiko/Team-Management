@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "889302269968",
+    "firebase_url": "https://mobile-app-6013b-default-rtdb.firebaseio.com",
+    "project_id": "mobile-app-6013b",
+    "storage_bucket": "mobile-app-6013b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889302269968:android:f790da8fa6473f7deb0a95",
+        "android_client_info": {
+          "package_name": "com.example.testfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp_819JmG56CnNdKDdFtSZA4OIKejuF5g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889302269968:android:6c6160d41f21be6beb0a95",
+        "android_client_info": {
+          "package_name": "com.thehecotnha.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp_819JmG56CnNdKDdFtSZA4OIKejuF5g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

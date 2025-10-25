@@ -1,3 +1,52 @@
 <resources>
+    <string name="scrollview_sample">
+悪魔の子 (Akuma no Ko)
+\n\n鉄の弾が 正義の証明
+\n貫けば 英雄に近づいた
+\nその目を閉じて 触れてみれば
+\n\n同じ形 同じ体温の悪魔
+\n僕はダメで あいつはいいの？
+\nそこに壁があっただけなのに
+\n生まれてしまった 運命嘆くな
+\n僕らはみんな 自由なんだから
+\n\n鳥のように 羽があれば
+\nどこへだって行けるけど
+\n帰る場所が なければ
+\nきっとどこへも行けない
+\nただただ生きるのは嫌だ
+\n世界は残酷だ それでも君を愛すよ
+\nなにを犠牲にしても それでも君を守るよ
+\n間違いだとしても 疑ったりしない
+\n正しさとは 自分のこと 強く信じることだ
+\n鉄の雨が 降り散る情景
+\nテレビの中 映画に見えたんだ
+\n戦争なんて 愚かな凶暴
+\n関係ない 知らない国の話
+\nそれならなんで あいつ憎んで
+\n黒い気持ち 隠しきれない理由
+\n説明だって できやしないんだ
+\n僕らはなんて 矛盾ばっかなんだ
+\nこの言葉も 訳されれば
+\n本当の意味は伝わらない
+\n信じるのは その目を開いて
+\n触れた世界だけ
+\nただただ生きるのは嫌だ
+\n世界は残酷だ それでも君を愛すよ
+\nなにを犠牲にしても それでも君を守るよ
+\n選んだ人の影 捨てたものの屍
+\n気づいたんだ 自分の中 育つのは悪魔の子
+\n正義の裏 犠牲の中 心には悪魔の子
+    </string>
     <string name="app_name">My Application</string>
+    <string name="sign_in">Sign In</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
 </resources>

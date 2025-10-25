@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground"
+    android:padding="16dp">
+
+<!--SignUpPageButton-->
+
+    <ImageButton
+        android:id="@+id/uploadButton"
+        android:layout_width="95dp"
+        android:layout_height="45dp"
+        android:background="@drawable/rounded_border_shadow"
+        android:textColor="?android:textColor" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/uploadButton"
+        android:layout_alignTop="@+id/uploadButton"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/inter_semibold"
+        android:gravity="center"
+        android:padding="1dp"
+        android:text="Upload PDF"
+        android:textColor="?android:textColor"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true">
+
+        <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="45dp">
+
+
+        <ImageButton
+            android:id="@+id/signUpPageButton"
+            android:layout_width="85dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:textColor="?android:textColor" />
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="12dp"
+            android:padding="1dp"
+            android:text="Sign up"
+            android:textColor="?android:textColor"
+            android:textSize="15sp"
+            android:fontFamily="@font/inter_semibold"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="80dp" >
+
+    <ImageButton
+        android:id="@+id/signInPageButton"
+        android:layout_width="95dp"
+        android:layout_height="45dp"
+        android:background="@drawable/rounded_border_shadow"
+        android:textColor="?android:textColor" />
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="10dp"
+        android:padding="1dp"
+        android:text="@string/sign_in"
+        android:textColor="?android:textColor"
+        android:textSize="15sp"
+        android:fontFamily="@font/inter_semibold" />
+
+    </RelativeLayout>
+
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/fragmentView"
+        android:name="com.thehecotnha.myapplication.layouts.SignInFragment"
+        android:layout_width="386dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        tools:layout="@layout/fragment_sign_in" />
+
+    <!--ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/image" -->
+
+
+
+
+</RelativeLayout>
+
