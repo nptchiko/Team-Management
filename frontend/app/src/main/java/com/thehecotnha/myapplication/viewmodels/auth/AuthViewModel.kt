@@ -10,13 +10,19 @@ import com.thehecotnha.myapplication.repository.UserRepository
 import com.thehecotnha.myapplication.utils.Response
 import kotlinx.coroutines.launch
 
-class AuthViewModel (private val repo: UserRepository): ViewModel() {
+class AuthViewModel (): ViewModel() {
+
+
+    private val repo = UserRepository()
 
     private val _signUpState: MutableLiveData<Response<User>> = MutableLiveData(Response.Idle)
     val signUpState : LiveData<Response<User>> = _signUpState
 
     private val _signInState: MutableLiveData<Response<FirebaseUser>> = MutableLiveData(Response.Idle)
     val signInState : LiveData<Response<FirebaseUser>> = _signInState
+
+    private val _userState: MutableLiveData<Response<User>> = MutableLiveData()
+    val userState : LiveData<Response<User>> = _userState
 
     fun signUp(user: User) = viewModelScope.launch {
         _signUpState.value = Response.Loading
@@ -28,5 +34,12 @@ class AuthViewModel (private val repo: UserRepository): ViewModel() {
         _signInState.value = Response.Loading
         _signInState.value = repo.signIn(email, password)
     }
+
+    fun getUserData() = viewModelScope.launch {
+        _userState.value = Response.Loading
+        val result = repo.getUserData()
+        _userState.value = result
+    }
+
 
 }

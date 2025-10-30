@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.viewmodels.auth.AuthViewModel
-import com.thehecotnha.myapplication.viewmodels.auth.AuthViewModelFactory
 import com.thehecotnha.myapplication.databinding.FragmentSignUpBinding
 import com.thehecotnha.myapplication.repository.UserRepository
 import com.thehecotnha.myapplication.utils.Response
@@ -28,7 +27,7 @@ class SignUpFragment : Fragment() {
     private lateinit var binding: FragmentSignUpBinding
 
     private val viewModel by lazy {
-        ViewModelProvider(this, AuthViewModelFactory(UserRepository()))[AuthViewModel::class.java]
+        ViewModelProvider(this).get(AuthViewModel::class.java)
     }
 
     // This property is only valid between onCreateView and
@@ -97,6 +96,7 @@ class SignUpFragment : Fragment() {
             return
         }
 
+        // Update UI to show loading state
         viewModel.signUpState.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Failure -> {
@@ -111,7 +111,9 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
-        viewModel.signUp(user = User(null, username, email, password))
+        // Rememember to call observe before calling signUp to avoid missing updates
+        // Call sign up function in ViewModel
+        viewModel.signUp(user = User(username = username, email = email, password = password))
 
     }
 

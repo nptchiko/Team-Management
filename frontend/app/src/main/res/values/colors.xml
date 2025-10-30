@@ -9,6 +9,9 @@
     <color name="red">#F06B6C</color>
     <color name="green">#57C3BE</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="bottom_nav_selected">#2B73FF</color>
+    <color name="bottom_nav_unselected">#9E9E9E</color>
+
 
     <!-- Dark Theme Colors -->
     <color name="white_night">#FFFFFF</color>
