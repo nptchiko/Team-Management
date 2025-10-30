@@ -1,10 +1,18 @@
 package com.thehecotnha.myapplication.models
 
+import android.os.Parcelable
 import com.thehecotnha.myapplication.utils.enums.Role
+import kotlinx.parcelize.Parcelize
 
+
+// Parcelize lam cho object User
+// co the duoc truyen giua cac Activity/Fragment
+// neu khong se phai request db nhieu
+
+@Parcelize
 data class User(
 
-    var uid: String?,
+    var uid: String = "",
 
     var username: String = "",
 
@@ -18,4 +26,4 @@ data class User(
 
     var phone: String = "",
 
-    )
+    ) : Parcelable

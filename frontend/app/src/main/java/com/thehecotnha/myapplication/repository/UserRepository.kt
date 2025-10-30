@@ -22,17 +22,22 @@ class UserRepository() {
 
     private val TAG = "USER_REPOSITORY"
 
+    // Dung de xac thuc nguoi dung
     private val auth : FirebaseAuth = FirebaseModule.firebaseAuth
 
 
-    // Dung de call user tu firebase
+    // Dung de call user tu firestore (firestore la service cua firebase de luu tru du lieu)
     private val userRef = FirebaseModule.userCollection
 
-    private val firebaseUserLD: MutableLiveData<FirebaseUser> by lazy {
+
+    //tracking du lieu nguoi dung real time
+    private val liveFirebaseUser: MutableLiveData<FirebaseUser> by lazy {
         MutableLiveData()
     }
-    fun getCurrentUser(): FirebaseUser? {
-        return auth.currentUser
+
+
+    fun currentUser(): FirebaseUser {
+        return auth.currentUser!!
     }
 
     suspend fun signIn(email: String, password: String): Response<FirebaseUser> {
@@ -40,7 +45,7 @@ class UserRepository() {
             val authResult = auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { it ->
                     if (it.isSuccessful) {
-                        firebaseUserLD.postValue(auth.currentUser)
+                        liveFirebaseUser.postValue(auth.currentUser)
                         Log.d(TAG, "Sign in as ${auth.currentUser?.email}")
                     } else {
                         Log.e(TAG, "Sign in failed")
@@ -60,7 +65,7 @@ class UserRepository() {
             auth.createUserWithEmailAndPassword(user.email, user.password)
                 .addOnCompleteListener { it ->
                     if (it.isSuccessful) {
-                        firebaseUserLD.postValue(auth.currentUser)
+                        liveFirebaseUser.postValue(auth.currentUser)
 
                         // lay id tu firebase auth
                         val fbUser = it.result?.user
@@ -80,11 +85,36 @@ class UserRepository() {
         }
     }
 
-    /**
-     * Signs out the currently authenticated user.
-     */
+    /** Get user profile data from Firestore **/
+    suspend fun getUserData(): Response<User> {
+        val uid: String = currentUser().uid
+        Log.d(TAG, "Get User Profile Data for uid=$uid")
+
+        var response : Response<User> = Response.Failure(Exception("No user data found"))
+
+        userRef.document(uid).get()
+            .addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    response = Response.Failure(it.exception ?: Exception("Unknown error"))
+                    null
+                }
+
+                val documentSnapshot = it.result
+                val result = documentSnapshot.toObject(User::class.java)
+
+                if (result != null) {
+                    Log.d(TAG, "getUserData: successfully got user data for uid=$uid")
+                    response = Response.Success(result)
+                }
+            }.await()
+
+        return response
+    }
+
+
+
     fun signOut() {
         auth.signOut()
-        firebaseUserLD.postValue(null)
+        liveFirebaseUser.postValue(null)
     }
 }

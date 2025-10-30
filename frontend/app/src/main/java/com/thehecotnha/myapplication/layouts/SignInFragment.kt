@@ -19,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.thehecotnha.myapplication.activities.MainActivity
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.viewmodels.auth.AuthViewModel
-import com.thehecotnha.myapplication.viewmodels.auth.AuthViewModelFactory
 import com.thehecotnha.myapplication.databinding.FragmentSignInBinding
 import com.thehecotnha.myapplication.repository.UserRepository
 import com.thehecotnha.myapplication.utils.Response
@@ -33,7 +32,7 @@ import kotlin.jvm.java
 class SignInFragment : Fragment() {
 
     private val viewModel: AuthViewModel by lazy {
-        ViewModelProvider(this, AuthViewModelFactory(UserRepository()))[AuthViewModel::class.java]
+        ViewModelProvider(this).get(AuthViewModel::class.java)
     }
     private var _binding: FragmentSignInBinding? = null
 
@@ -166,8 +165,12 @@ class SignInFragment : Fragment() {
 
 
         viewModel.signInState.observe(viewLifecycleOwner) { response ->
+
+            val loadingDialog = showProgressDialog(requireContext(), "Signing in...")
+
             when (response) {
                 is Response.Failure -> {
+                    loadingDialog.dismiss()
                     Toast.makeText(requireContext(), response.e?.message ?: "Sign in failed", Toast.LENGTH_LONG).show()
 
                     binding.usernameEditText.setBackgroundResource(R.drawable.rounded_error_border_shadow)
@@ -185,6 +188,7 @@ class SignInFragment : Fragment() {
 
                 }
                 is Response.Success -> {
+                    loadingDialog.dismiss()
                     val intent: Intent = Intent(activity, MainActivity::class.java)
                     startActivity(intent)
                     Toast.makeText(requireContext(), "Welcome", Toast.LENGTH_SHORT).show()
@@ -192,7 +196,7 @@ class SignInFragment : Fragment() {
                 }
                 is Response.Idle -> {}
                 is Response.Loading -> {
-                    showProgressDialog(requireContext(), "Loading")
+                    loadingDialog.show()
                 }
             }
         }

@@ -36,8 +36,8 @@ class AuthActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    public fun loadFragment(fragment: Fragment){
-        getSupportFragmentManager().beginTransaction()
+    fun loadFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentView, fragment)
             .addToBackStack(null)
             .commit()
