@@ -1,22 +1,14 @@
 package com.thehecotnha.myapplication.activities
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.jiradashboard.QuickAccessAdapter
-import com.example.jiradashboard.RecentItemsAdapter
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.ui.dashboard.DashboardFragment
 import com.thehecotnha.myapplication.activities.ui.home.HomeFragment
 import com.thehecotnha.myapplication.activities.ui.notifications.NotificationsFragment
 import com.thehecotnha.myapplication.activities.ui.project.ProjectFragment
 import com.thehecotnha.myapplication.databinding.ActivityDashboardBinding
-import com.thehecotnha.myapplication.models.QuickAccessItem
-import com.thehecotnha.myapplication.models.ViewItem
 import com.thehecotnha.myapplication.utils.toast
 
 class DashboardActivity : AppCompatActivity() {
