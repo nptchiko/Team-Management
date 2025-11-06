@@ -1,4 +1,4 @@
-package com.thehecotnha.myapplication.viewmodels.auth
+package com.thehecotnha.myapplication.activities.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,19 +18,22 @@ class AuthViewModel (): ViewModel() {
     private val _signUpState: MutableLiveData<Response<User>> = MutableLiveData(Response.Idle)
     val signUpState : LiveData<Response<User>> = _signUpState
 
-    private val _signInState: MutableLiveData<Response<FirebaseUser>> = MutableLiveData(Response.Idle)
+    private val _signInState: MutableLiveData<Response<FirebaseUser>> =
+        MutableLiveData(Response.Idle)
     val signInState : LiveData<Response<FirebaseUser>> = _signInState
 
     private val _userState: MutableLiveData<Response<User>> = MutableLiveData()
     val userState : LiveData<Response<User>> = _userState
 
     fun signUp(user: User) = viewModelScope.launch {
-        _signUpState.value = Response.Loading
+        if (_signUpState.value is Response.Idle)
+            _signUpState.value = Response.Loading
         val result = repo.signUp(user)
         _signUpState.value = result
     }
 
     fun signIn(email: String, password: String) = viewModelScope.launch {
+
         _signInState.value = Response.Loading
         _signInState.value = repo.signIn(email, password)
     }
@@ -40,6 +43,5 @@ class AuthViewModel (): ViewModel() {
         val result = repo.getUserData()
         _userState.value = result
     }
-
 
 }

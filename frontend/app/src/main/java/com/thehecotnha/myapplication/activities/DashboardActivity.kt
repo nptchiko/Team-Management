@@ -1,13 +1,16 @@
 package com.thehecotnha.myapplication.activities
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.ui.dashboard.DashboardFragment
 import com.thehecotnha.myapplication.activities.ui.home.HomeFragment
 import com.thehecotnha.myapplication.activities.ui.notifications.NotificationsFragment
-import com.thehecotnha.myapplication.activities.ui.project.ProjectFragment
+import com.thehecotnha.myapplication.activities.ui.project.NewProjectFragment
+import com.thehecotnha.myapplication.activities.ui.project.ProjectDetailFragment
+
 import com.thehecotnha.myapplication.databinding.ActivityDashboardBinding
 import com.thehecotnha.myapplication.utils.toast
 
@@ -20,27 +23,37 @@ class DashboardActivity : AppCompatActivity() {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportFragmentManager.addOnBackStackChangedListener {
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_nav_activity_dashboard)
+            if (currentFragment is NewProjectFragment) {
+                binding.bottomNavigation.visibility = View.GONE
+                binding.ivAdd.visibility = View.GONE
+            } else {
+                binding.bottomNavigation.visibility = View.VISIBLE
+                binding.ivAdd.visibility = View.VISIBLE
+            }
+        }
 
         val navView = binding.bottomNavigation
         navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
                     loadFragment(HomeFragment())
-                    toast(this, "Home")
+
                     true
                 }
                 R.id.navigation_projects -> {
-                    loadFragment(ProjectFragment())
-                    toast(this, "Project")
+                    loadFragment(ProjectDetailFragment())
+
                     true
                 }
                 R.id.navigation_dashboards -> {
-                    toast(this, "Dashboard")
+
                     loadFragment(DashboardFragment())
                     true
                 }
                 R.id.navigation_notifications -> {
-                    toast(this, "Notifications")
+
                     loadFragment(NotificationsFragment())
                     true
                 }
@@ -53,10 +66,18 @@ class DashboardActivity : AppCompatActivity() {
             navView.selectedItemId = R.id.navigation_home
         }
 
+        // them project moi
+
+        binding.ivAdd.setOnClickListener {
+            loadFragment(NewProjectFragment())
+        }
+
+
     }
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_nav_activity_dashboard, fragment)
+            .apply { addToBackStack(fragment.toString()) }
             .commit()
     }
 }

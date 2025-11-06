@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    Font family: Inter
-    Line height: 58px
-    Paragraph spacing: 0px
+    <style name="TextAppearance.App.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#2B2B2B</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+    </style>
+    <style name="TextAppearance.App.Label">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:fontFamily">@font/poppins_light</item>
+    </style>
+    <style name="TextAppearance.App" parent="TextAppearance.MaterialComponents.Body1" />
+
+    <!-- Base style for Toolbars in the app -->
+    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary" />
+
+    <!-- Specific style for the Toolbar title -->
+
 <style name=
     "some_id">
     <item name=
@@ -24,7 +38,7 @@
         <item name="android:textColor">#FFFFFF</item>
         <!-- Добавленные параметры для шрифта -->
         <item name="android:fontFamily">@font/inter</item>
-        <item name="android:lineHeight">58px</item>
+
         <item name="android:lineSpacingExtra">0px</item>
         <!-- Опциональные параметры для отступов -->
         <item name="android:paddingLeft">8dp</item>

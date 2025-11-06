@@ -18,9 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.thehecotnha.myapplication.activities.MainActivity
 import com.thehecotnha.myapplication.R
-import com.thehecotnha.myapplication.viewmodels.auth.AuthViewModel
+import com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel
 import com.thehecotnha.myapplication.databinding.FragmentSignInBinding
-import com.thehecotnha.myapplication.repository.UserRepository
 import com.thehecotnha.myapplication.utils.Response
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import kotlin.getValue

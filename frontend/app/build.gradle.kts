@@ -38,7 +38,6 @@ android {
     }
     buildFeatures {
         viewBinding = true
-
     }
     buildToolsVersion = "36.0.0"
 }
@@ -70,6 +69,8 @@ dependencies {
     implementation("com.google.android.material:material:1.13.0")
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.fragment.ktx)
 
 
 
