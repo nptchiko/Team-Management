@@ -1,15 +1,15 @@
 package com.thehecotnha.myapplication.activities
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.thehecotnha.myapplication.databinding.ActivityDashboardBinding
 import com.thehecotnha.myapplication.databinding.ActivityProfileBinding
 import com.thehecotnha.myapplication.utils.Response
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
-import com.thehecotnha.myapplication.viewmodels.auth.AuthViewModel
+import com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -18,6 +18,8 @@ class ProfileActivity : AppCompatActivity() {
         ViewModelProvider(this).get(AuthViewModel::class.java)
     }
 
+    private var progressDialog: Dialog? = null
+
     private lateinit var binding: ActivityProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,15 +27,18 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        progressDialog = showProgressDialog(this, "Loading profile...")
         // Dat listener de update giao dien khi co thay doi ve user
         viewModel.userState.observe(this) { response ->
 
             // tao object hien thi man hinh loading
-            val loadingDialog = showProgressDialog(this, "Loading profile...")
+
             when (response) {
                 is Response.Success -> {
-                    loadingDialog.dismiss()
+
+                    if (progressDialog?.isShowing == true) {
+                        progressDialog?.dismiss()
+                    }
                     val user = response.data!!
                     binding.usernameTextView.text = user.username
                     binding.emailValueTextView.text = user.email
@@ -51,7 +56,11 @@ class ProfileActivity : AppCompatActivity() {
 
                 is Response.Failure -> {
                     //tat loading
-                    loadingDialog.dismiss()
+
+                    if (progressDialog?.isShowing == true) {
+                        progressDialog?.dismiss()
+                    }
+
                     showAleartDialog(
                         context = this,
                         "Oops!",
@@ -61,7 +70,9 @@ class ProfileActivity : AppCompatActivity() {
 
                 is Response.Idle -> {}
                 is Response.Loading -> {
-                    // chay loading
+                    // hien thi loading
+                    progressDialog?.show()
+
                 }
             }
 

@@ -9,14 +9,23 @@
         android:id="@+id/navigation_home"
         android:name="com.thehecotnha.myapplication.activities.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
 
 
     <fragment
         android:id="@+id/navigation_project"
         android:name="com.thehecotnha.myapplication.activities.ui.project.ProjectFragment"
-        android:label="Project"
-        tools:layout="@layout/fragment_project" />
+        android:label="Project" />
+
+
+    <fragment
+        android:id="@+id/navigation_add"
+        android:name="com.thehecotnha.myapplication.activities.ui.project.ProjectFragment"
+        />
 
     <fragment
         android:id="@+id/navigation_dashboard"

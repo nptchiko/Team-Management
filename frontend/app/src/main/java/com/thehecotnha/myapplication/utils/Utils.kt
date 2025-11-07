@@ -2,8 +2,6 @@ package com.thehecotnha.myapplication.utils
 
 import android.app.Dialog
 import android.content.Context
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.databinding.DialogFailedBinding
 import com.thehecotnha.myapplication.databinding.DialogProgressBinding
 import com.thehecotnha.myapplication.databinding.DialogSuccessBinding
@@ -49,3 +47,4 @@ fun showAleartDialog(context: Context, title: String, message: String) {
     }
     dialog.show()
 }
+
