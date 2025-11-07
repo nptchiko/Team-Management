@@ -13,7 +13,9 @@ import com.example.jiradashboard.QuickAccessAdapter
 import com.example.jiradashboard.RecentItemsAdapter
 import com.google.firebase.Timestamp
 import com.thehecotnha.myapplication.R
+import com.thehecotnha.myapplication.activities.DashboardActivity
 import com.thehecotnha.myapplication.activities.ProfileActivity
+import com.thehecotnha.myapplication.activities.ui.project.ProjectDetailFragment
 import com.thehecotnha.myapplication.adapters.ProjectAdapter
 import com.thehecotnha.myapplication.databinding.FragmentHomeBinding
 import com.thehecotnha.myapplication.models.CalendarDate
@@ -87,7 +89,10 @@ class HomeFragment : Fragment() {
                         0
                     )
                 } ?: emptyList()
-                binding.projectRecyclerView.adapter = ProjectAdapter(projectItems)
+                binding.projectRecyclerView.adapter = ProjectAdapter(projectItems) { project ->
+                    // Handle project item click
+                    DashboardActivity().loadFragment(ProjectDetailFragment())
+                }
         }
 
 
@@ -137,23 +142,6 @@ class HomeFragment : Fragment() {
         binding.incomingRecyclerView.adapter = RecentItemsAdapter(viewItems)
     }
 
-    private fun setupProjects() {
-
-        // You can replace this with actual project data
-        val projectItems = listOf(
-            ProjectItem(
-            "Project Alpha", "TODO", CalendarDate(Timestamp.now().toDate()).calendar, 0, 23),
-        ProjectItem(
-            "Project Alpha", "TODO", CalendarDate(Timestamp.now().toDate()).calendar, 0, 23),
-        ProjectItem(
-            "Project Alpha", "TODO", CalendarDate(Timestamp.now().toDate()).calendar, 0, 23),
-            ProjectItem(
-                "Project Alpha", "TODO", CalendarDate(Timestamp.now().toDate()).calendar, 0, 23),
-        )
-
-
-        binding.projectRecyclerView.adapter = ProjectAdapter(projectItems)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

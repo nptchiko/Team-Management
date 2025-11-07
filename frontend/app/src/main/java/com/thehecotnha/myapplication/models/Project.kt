@@ -1,12 +1,16 @@
 package com.thehecotnha.myapplication.models
 
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.firebase.Timestamp
+import kotlinx.parcelize.Parcelize
 
 /**
  * Project
  */
 
+@Parcelize
 data class Project(
     var id: String? = null,
     var title: String = "",
@@ -16,4 +20,4 @@ data class Project(
     var searchTitle: String = "",
     var ownerId: String = "",
     var teams: MutableList<String> = mutableListOf(),
-)
+) : Parcelable

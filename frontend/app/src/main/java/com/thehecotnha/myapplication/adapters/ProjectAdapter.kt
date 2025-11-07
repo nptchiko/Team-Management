@@ -15,7 +15,7 @@ import com.thehecotnha.myapplication.models.ProjectItem
 
 
 class ProjectAdapter(
-    private val items: List<ProjectItem>
+    private val items: List<ProjectItem>, private val onItemClicked: (ProjectItem) -> Unit
 ) : RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {
 
 
@@ -34,12 +34,10 @@ class ProjectAdapter(
             binding.progressBarProjectCard.progress = project.projectPercent
 
 
-/*            // from the home => go the corresponding project
+            // from the home => go the corresponding project
             binding.root.setOnClickListener {
-                val action = HomeFragmentDirections.homeToProject(project)
-                it.findNavController().navigate(action)
+                onItemClicked(project)
             }
-            binding.executePendingBindings()*/
         }
     }
 

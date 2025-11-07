@@ -74,7 +74,7 @@ class DashboardActivity : AppCompatActivity() {
 
 
     }
-    private fun loadFragment(fragment: Fragment) {
+    fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_nav_activity_dashboard, fragment)
             .apply { addToBackStack(fragment.toString()) }
