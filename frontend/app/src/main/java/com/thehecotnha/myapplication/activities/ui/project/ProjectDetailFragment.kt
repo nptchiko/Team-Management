@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thehecotnha.myapplication.R
+import com.thehecotnha.myapplication.activities.NewTaskFragment
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.adapters.TaskDetailAdapter
 import com.thehecotnha.myapplication.databinding.FragmentProjectDetailBinding
@@ -87,12 +88,18 @@ class ProjectDetailFragment : Fragment() {
         }
         viewModel.getTasksByFilter(requireContext(), project?.id!!, "all")
 
+
+        b.fabAddTask.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_nav_activity_dashboard, NewTaskFragment.newInstance(project!!))
+                .addToBackStack(null)
+                .commit()
+        }
         return root
     }
 
     companion object {
         private const val ARG_PROJECT = "project_arg"
-
         @JvmStatic
         fun newInstance(project: Project) =
             ProjectDetailFragment().apply {

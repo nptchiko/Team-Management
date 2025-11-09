@@ -66,5 +66,7 @@
     <string name="all_tasks">ALL</string>
     <string name="state_completed">DONE</string>
     <string name="state_todo">TODO</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

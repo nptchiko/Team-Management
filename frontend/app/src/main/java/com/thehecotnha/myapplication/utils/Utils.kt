@@ -2,6 +2,8 @@ package com.thehecotnha.myapplication.utils
 
 import android.app.Dialog
 import android.content.Context
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.thehecotnha.myapplication.databinding.DialogFailedBinding
 import com.thehecotnha.myapplication.databinding.DialogProgressBinding
 import com.thehecotnha.myapplication.databinding.DialogSuccessBinding
@@ -47,4 +49,3 @@ fun showAleartDialog(context: Context, title: String, message: String) {
     }
     dialog.show()
 }
-

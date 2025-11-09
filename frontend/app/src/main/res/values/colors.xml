@@ -58,7 +58,6 @@
     <color name="line">#DFE2E2</color>
 
 
-
     <color name="blue_100">#323750</color>
     <color name="blue_700">#111731</color>
 
@@ -77,5 +76,10 @@
 
     <color name="filter_bg">@color/white</color>
     <color name="submenu">#585858</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 
 </resources>

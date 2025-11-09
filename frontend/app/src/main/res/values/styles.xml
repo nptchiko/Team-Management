@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="TextAppearance.App.Title">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#2B2B2B</item>
         <item name="android:fontFamily">@font/poppins_bold</item>
     </style>
+
     <style name="TextAppearance.App.Label">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#333333</item>
         <item name="android:fontFamily">@font/poppins_light</item>
     </style>
+
     <style name="TextAppearance.App" parent="TextAppearance.MaterialComponents.Body1" />
 
     <!-- Base style for Toolbars in the app -->
@@ -17,21 +20,18 @@
 
     <!-- Specific style for the Toolbar title -->
 
-<style name=
-    "some_id">
-    <item name=
-        "android:textSize">
-        48px
-    </item>
-    <item name=
-        "android:letterSpacing">
-        0.0005
-    </item>
-    <item name=
-        "android:textColor">
-        #FFFFFF
-    </item>
-</style>
+    <style name="some_id">
+        <item name="android:textSize">
+            48px
+        </item>
+        <item name="android:letterSpacing">
+            0.0005
+        </item>
+        <item name="android:textColor">
+            #FFFFFF
+        </item>
+    </style>
+
     <style name="SomeCustomStyle">
         <item name="android:textSize">48px</item>
         <item name="android:letterSpacing">0.0005</item>
@@ -46,7 +46,13 @@
         <!-- Опциональные параметры для выравнивания -->
         <item name="android:textAlignment">center</item>
     </style>
+
     <style name="NoUnderlineEditText">
         <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Widget.Theme.MyApplication.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
 </resources>
