@@ -78,10 +78,13 @@ class HomeFragment : Fragment() {
 
         // tracking project data
         projViewModel._project.observe(viewLifecycleOwner){
+                var cnt = 0
                 val projectItems = it?.map { project ->
                     ProjectItem(
                         // try common field names, fall back to defaults
+
                         project.title,
+                        cnt++,
                         project.state,
                         // convert nullable Date (or timestamp) to calendar string
                         CalendarDate(project.dueDate!!.toDate()).calendar,
@@ -89,9 +92,11 @@ class HomeFragment : Fragment() {
                         0
                     )
                 } ?: emptyList()
+
                 binding.projectRecyclerView.adapter = ProjectAdapter(projectItems) { project ->
                     // Handle project item click
-                    DashboardActivity().loadFragment(ProjectDetailFragment())
+                    val projectDetailFragment = ProjectDetailFragment.newInstance(it!![project.pos])
+                    (activity as? DashboardActivity)?.loadFragment(projectDetailFragment)
                 }
         }
 

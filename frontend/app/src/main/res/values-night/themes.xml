@@ -19,4 +19,9 @@
         <item name="colorGreen">@color/green_night</item>
         <item name="colorTransparent">@color/transparent_night</item>
     </style>
+
+    <style name="ThemeOverlay.Jiraa.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
+    </style>
 </resources>

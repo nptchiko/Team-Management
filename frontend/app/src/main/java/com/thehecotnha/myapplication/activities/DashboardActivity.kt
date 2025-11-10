@@ -10,9 +10,11 @@ import com.thehecotnha.myapplication.activities.ui.home.HomeFragment
 import com.thehecotnha.myapplication.activities.ui.notifications.NotificationsFragment
 import com.thehecotnha.myapplication.activities.ui.project.NewProjectFragment
 import com.thehecotnha.myapplication.activities.ui.project.ProjectDetailFragment
+import com.thehecotnha.myapplication.activities.ui.tasks.NewTaskFragment
 
 import com.thehecotnha.myapplication.databinding.ActivityDashboardBinding
 import com.thehecotnha.myapplication.utils.toast
+import kotlin.jvm.java
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -25,7 +27,12 @@ class DashboardActivity : AppCompatActivity() {
 
         supportFragmentManager.addOnBackStackChangedListener {
             val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_nav_activity_dashboard)
-            if (currentFragment is NewProjectFragment) {
+
+
+            if (currentFragment is NewProjectFragment ||
+                currentFragment is ProjectDetailFragment ||
+                currentFragment is NewTaskFragment
+            ) {
                 binding.bottomNavigation.visibility = View.GONE
                 binding.ivAdd.visibility = View.GONE
             } else {

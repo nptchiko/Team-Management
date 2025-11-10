@@ -113,7 +113,6 @@ class ProjectRepository {
     }
 
 // ========== TASK RELATED METHODS CAN BEADDED HERE ==========
-
     suspend fun saveTask(task: Task) : Response<Void> {
         return try {
             projectRef
@@ -133,4 +132,15 @@ class ProjectRepository {
         }
     }
 
+
+     fun getTaskFilted(projectId: String, filterName: String): Query {
+        val query = projectRef.document(projectId)
+            .collection("tasksAffected")
+        return query
+/*        return if (filterName.isNotEmpty()) {
+            query.whereEqualTo("state", filterName)
+        } else {
+            query
+        }*/
+    }
 }

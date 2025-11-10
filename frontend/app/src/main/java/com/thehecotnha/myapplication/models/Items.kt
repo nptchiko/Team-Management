@@ -16,7 +16,9 @@ data class ViewItem(
 )
 
 data class ProjectItem(
+
     val title: String,
+    val pos: Int,
     val state: String,
     val dueDate: String,
     val taskLefts: Int,
