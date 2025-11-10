@@ -1,16 +1,17 @@
-package com.thehecotnha.myapplication.activities
+package com.thehecotnha.myapplication.activities.ui.tasks
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.thehecotnha.myapplication.R
-import com.thehecotnha.myapplication.activities.ui.project.ProjectDetailFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.thehecotnha.myapplication.activities.NewTaskViewModel
 import com.thehecotnha.myapplication.databinding.FragmentNewTaskBinding
 import com.thehecotnha.myapplication.models.Project
+import java.util.Date
 
 @Suppress("DEPRECATION")
 class NewTaskFragment : Fragment() {
@@ -50,7 +51,17 @@ class NewTaskFragment : Fragment() {
         _binding = FragmentNewTaskBinding.inflate(inflater, container, false)
         val root = b.root
 
-        Toast.makeText(requireContext(), "Project id: ${project!!.id}", Toast.LENGTH_SHORT).show()
+
+
+        b.ivDueDate.setOnClickListener {
+            val datePicker =
+                MaterialDatePicker.Builder<Date>.datePicker()
+                    .setTitleText("Select date")
+                    .build()
+
+
+        }
+
 
 
         return root

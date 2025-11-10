@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thehecotnha.myapplication.R
-import com.thehecotnha.myapplication.activities.NewTaskFragment
+import com.thehecotnha.myapplication.activities.ui.tasks.NewTaskFragment
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.adapters.TaskDetailAdapter
 import com.thehecotnha.myapplication.databinding.FragmentProjectDetailBinding

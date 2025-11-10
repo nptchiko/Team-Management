@@ -10,6 +10,7 @@ import com.thehecotnha.myapplication.activities.ui.home.HomeFragment
 import com.thehecotnha.myapplication.activities.ui.notifications.NotificationsFragment
 import com.thehecotnha.myapplication.activities.ui.project.NewProjectFragment
 import com.thehecotnha.myapplication.activities.ui.project.ProjectDetailFragment
+import com.thehecotnha.myapplication.activities.ui.tasks.NewTaskFragment
 
 import com.thehecotnha.myapplication.databinding.ActivityDashboardBinding
 import com.thehecotnha.myapplication.utils.toast
@@ -30,7 +31,8 @@ class DashboardActivity : AppCompatActivity() {
 
             if (currentFragment is NewProjectFragment ||
                 currentFragment is ProjectDetailFragment ||
-                currentFragment is NewTaskFragment) {
+                currentFragment is NewTaskFragment
+            ) {
                 binding.bottomNavigation.visibility = View.GONE
                 binding.ivAdd.visibility = View.GONE
             } else {
