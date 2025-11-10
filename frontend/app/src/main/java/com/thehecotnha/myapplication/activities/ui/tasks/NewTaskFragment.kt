@@ -15,7 +15,6 @@ import java.util.Date
 
 @Suppress("DEPRECATION")
 class NewTaskFragment : Fragment() {
-
     companion object {
         private const val ARG_PROJECT = "project_arg"
 
@@ -27,21 +26,18 @@ class NewTaskFragment : Fragment() {
                 }
             }
     }
+
     private val viewModel: NewTaskViewModel by viewModels()
-
     private var project: Project? = null
-
     private var _binding: FragmentNewTaskBinding? = null
-
     private val b get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            // Retrieve the project object from arguments
-            project = it.getParcelable(ARG_PROJECT) }
-        // TODO: Use the ViewModel
+            project = it.getParcelable(ARG_PROJECT)
+        }
     }
 
     override fun onCreateView(
@@ -51,15 +47,18 @@ class NewTaskFragment : Fragment() {
         _binding = FragmentNewTaskBinding.inflate(inflater, container, false)
         val root = b.root
 
-
+        val datePicker =
+            MaterialDatePicker.Builder<Date>.datePicker()
+                .setTitleText("Select date")
+                .build()
 
         b.ivDueDate.setOnClickListener {
-            val datePicker =
-                MaterialDatePicker.Builder<Date>.datePicker()
-                    .setTitleText("Select date")
-                    .build()
+            datePicker.show(parentFragmentManager, "Pick due date for task")
+        }
 
-
+        datePicker.addOnPositiveButtonClickListener { selection ->
+            val date = Date(selection)
+            b.tvDueDate.text = datePicker.headerText
         }
 
 
