@@ -1,6 +1,7 @@
 package com.thehecotnha.myapplication.layouts
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Patterns
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.R
+import com.thehecotnha.myapplication.activities.MainActivity
 import com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel
 import com.thehecotnha.myapplication.databinding.FragmentSignUpBinding
 import com.thehecotnha.myapplication.utils.Response
@@ -97,12 +99,16 @@ class SignUpFragment : Fragment() {
 
         // Update UI to show loading state
         viewModel.signUpState.observe(viewLifecycleOwner) { response ->
+            val loadingDialog = showProgressDialog(requireContext(), "Signing up...")
             when (response) {
                 is Response.Failure -> {
-
+                    loadingDialog.dismiss()
+                    Toast.makeText(requireContext(), response.e?.message ?: "Sign in failed", Toast.LENGTH_LONG).show()
                 }
                 is Response.Success -> {
-                    Toast.makeText(requireContext(), "Sign up success", Toast.LENGTH_SHORT).show()
+                    val intent: Intent = Intent(activity, MainActivity::class.java)
+                    startActivity(intent)
+                    Toast.makeText(requireContext(), "Welcome", Toast.LENGTH_SHORT).show()
                 }
                 is Response.Idle -> {}
                 is Response.Loading -> {
