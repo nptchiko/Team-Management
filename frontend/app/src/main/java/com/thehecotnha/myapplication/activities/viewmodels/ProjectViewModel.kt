@@ -8,9 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.models.Project
+import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.repository.ProjectRepository
 import com.thehecotnha.myapplication.repository.UserRepository
+import com.thehecotnha.myapplication.utils.Response
 import kotlinx.coroutines.launch
 
 class ProjectViewModel : ViewModel() {
@@ -20,8 +22,9 @@ class ProjectViewModel : ViewModel() {
 
     val _project = MutableLiveData<List<Project>?>()
 
-    val _projectTask = MutableLiveData<List<com.thehecotnha.myapplication.models.Task>?>()
+    val _projectTask = MutableLiveData<List<Task>>()
 
+    val _taskState = MutableLiveData< Response<Void>>(Response.Idle)
 
     fun getUserProjects() {
         val userId = userRepo.currentUser().uid
@@ -60,6 +63,11 @@ class ProjectViewModel : ViewModel() {
             }
 
         }
+    }
+
+    fun saveNewTask(task: Task) = viewModelScope.launch {
+        _taskState.value = Response.Loading
+        _taskState.value = projectRepo.saveTask(task)
     }
 
 }

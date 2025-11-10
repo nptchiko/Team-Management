@@ -10,6 +10,7 @@ import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.utils.Response
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
+import java.util.UUID
 
 class ProjectRepository {
 
@@ -115,6 +116,7 @@ class ProjectRepository {
 // ========== TASK RELATED METHODS CAN BEADDED HERE ==========
     suspend fun saveTask(task: Task) : Response<Void> {
         return try {
+            task.id = UUID.randomUUID().toString()
             projectRef
                 .document(task.projectId)
                 .collection("tasksAffected")
