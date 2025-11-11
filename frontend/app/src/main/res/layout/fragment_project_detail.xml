@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_100">
+    android:background="@color/white"
+ >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -133,29 +134,86 @@
                     android:orientation="horizontal">
 
                     <!-- To-Do Column -->
-                    <include
-                        android:id="@+id/kanban_todo_column"
 
-                        layout="@layout/layout_kanban_column"
-                        android:layout_width="360dp"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
 
-                        android:layout_marginEnd="16dp" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_column_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/poppins"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:text="@string/state_todo" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_todo_tasks"
+                            android:layout_width="340dp"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/item_task" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_column_progress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/poppins"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:text="@string/state_progress" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_progress_tasks"
+                            android:layout_width="360dp"
+                            android:layout_height="wrap_content"
+
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/item_task" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_column_done"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/poppins"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:text="@string/state_completed" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_done_tasks"
+                            android:layout_width="380dp"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/item_task" />
+                    </LinearLayout>
 
                     <!-- In Progress Column -->
-                    <include
-                        android:id="@+id/kanban_in_progress_column"
-                        layout="@layout/layout_kanban_column"
-                        android:layout_width="360dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp" />
 
                     <!-- Completed Column -->
-                    <include
-                        android:id="@+id/kanban_done_column"
-                        layout="@layout/layout_kanban_column"
-                        android:layout_width="360dp"
-                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </HorizontalScrollView>
 

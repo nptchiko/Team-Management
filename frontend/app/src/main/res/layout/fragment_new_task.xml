@@ -89,15 +89,22 @@
             android:text="State"
             android:textAppearance="@style/TextAppearance.App.Label" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="94dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/menu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/poppins"
-            android:text="@string/state_todo"
-            android:textAppearance="@style/TextAppearance.App.Label" />
+           >
+
+            <AutoCompleteTextView
+                android:id="@+id/stateTextView"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:labelFor="@id/menu"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView5"

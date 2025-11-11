@@ -28,7 +28,9 @@ class ProjectDetailFragment : Fragment() {
     // onDestroyView.
     private val b get() = _binding!!
 
-    private var taskAdapter: TaskDetailAdapter? = null
+    private var todoAdapter: TaskDetailAdapter = TaskDetailAdapter(mutableListOf()) {  }
+    private var inProgressAdapter: TaskDetailAdapter = TaskDetailAdapter(mutableListOf()) {  }
+    private var doneAdapter: TaskDetailAdapter = TaskDetailAdapter(mutableListOf()) {}
 
     private val viewModel by lazy {
         ViewModelProvider(this).get(ProjectViewModel::class.java)
@@ -49,42 +51,36 @@ class ProjectDetailFragment : Fragment() {
         _binding = FragmentProjectDetailBinding.inflate(inflater, container, false)
         val root = b.root
 
-
-
         b.tvProjectTitle.text = project?.title
         b.tvProjectDescription.text = project?.description
         b.tvDueDate.text = CalendarDate(project?.dueDate!!.toDate()).calendar
 
 
-        b.kanbanTodoColumn.rvTasks.layoutManager = LinearLayoutManager(requireContext())
-        b.kanbanTodoColumn.tvColumnTitle.text = "Todo"
-        b.kanbanInProgressColumn.rvTasks.layoutManager = LinearLayoutManager(requireContext())
-        b.kanbanDoneColumn.rvTasks.layoutManager = LinearLayoutManager(requireContext())
+        b.rvTodoTasks.layoutManager = LinearLayoutManager(requireContext())
+        b.rvProgressTasks.layoutManager = LinearLayoutManager(requireContext())
+        b.rvDoneTasks.layoutManager = LinearLayoutManager(requireContext())
 
         Toast.makeText(requireContext(), "Project ID: ${project?.id}", Toast.LENGTH_SHORT).show()
 
 
         viewModel._projectTask.observe(viewLifecycleOwner) { tasks ->
-            taskAdapter = TaskDetailAdapter(tasks!!)  { pos ->
+            todoAdapter = TaskDetailAdapter(tasks.filter { task -> task.state == "TODO" })  { pos ->
                 Toast.makeText(requireContext(), "Clicked task at position: $pos", Toast.LENGTH_SHORT).show()
          /*       val projectDetailFragment = ProjectDetailFragment.newInstance(it!![project.pos])
                 (activity as? DashboardActivity)?.loadFragment(projectDetailFragment)*/
-                }
-            b.kanbanTodoColumn.rvTasks.adapter = taskAdapter
-/*            taskAdapter?.updateTasks(tasks.filter {
-                it.state == getString(R.string.state_todo)
-            })
-            b.kanbanTodoColumn.rvTasks.adapter = taskAdapter
+            }
+            b.rvTodoTasks.adapter = todoAdapter
 
-            taskAdapter?.updateTasks(tasks.filter {
-                it.state == getString(R.string.state_progress)
-            })
-            b.kanbanInProgressColumn.rvTasks.adapter = taskAdapter
+            inProgressAdapter = TaskDetailAdapter(tasks.filter { task -> task.state == "IN PROGRESS" }) { pos ->
+                Toast.makeText(requireContext(), "Clicked task at position: $pos", Toast.LENGTH_SHORT).show()
+            }
+            b.rvProgressTasks.adapter = inProgressAdapter
 
-            taskAdapter?.updateTasks(tasks.filter {
-                it.state == getString(R.string.state_completed)
-            })
-            b.kanbanDoneColumn.rvTasks.adapter = taskAdapter*/
+            doneAdapter = TaskDetailAdapter(tasks.filter { task -> task.state == "DONE" }) { pos ->
+                Toast.makeText(requireContext(), "Clicked task at position: $pos", Toast.LENGTH_SHORT).show()
+            }
+            b.rvDoneTasks.adapter = doneAdapter
+
         }
         viewModel.getTasksByFilter(requireContext(), project?.id!!, "all")
 
