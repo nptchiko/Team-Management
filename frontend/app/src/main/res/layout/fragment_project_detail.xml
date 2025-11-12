@@ -19,15 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/menu_project_detail"
+            android:background="@color/salmon_300"
             app:navigationIcon="@drawable/arrow_left_24">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/poppins_bold"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Project Detail"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
 
         </androidx.appcompat.widget.Toolbar>

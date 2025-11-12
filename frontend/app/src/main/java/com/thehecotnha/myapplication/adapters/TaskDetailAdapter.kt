@@ -18,18 +18,18 @@ import com.thehecotnha.myapplication.models.Task
 
 class TaskDetailAdapter(
     private val items: List<Task>,
-    private val onItemClicked: (Int) -> Unit
+    private val onItemClicked: (Task) -> Unit
 ) : RecyclerView.Adapter<TaskDetailAdapter.TaskViewHolder>() {
 
     inner class TaskViewHolder(private val b: ItemTaskBinding) :
         RecyclerView.ViewHolder(b.root) {
 
-        fun updateUIWith(task: Task, pos: Int) {
+        fun updateUIWith(task: Task) {
             b.tvTaskTitle.text = task.title
             b.tvTaskDescription.text = task.description
 
             b.root.setOnClickListener {
-                onItemClicked(pos)
+                onItemClicked(task)
             }
         }
     }
@@ -49,7 +49,7 @@ class TaskDetailAdapter(
         holder: TaskViewHolder,
         position: Int
     ) {
-        holder.updateUIWith(items[position], position)
+        holder.updateUIWith(items[position])
     }
 
     override fun getItemCount(): Int {

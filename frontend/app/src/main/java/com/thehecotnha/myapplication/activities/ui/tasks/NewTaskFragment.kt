@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.Timestamp
 import com.thehecotnha.myapplication.R
-import com.thehecotnha.myapplication.activities.NewTaskViewModel
 import com.thehecotnha.myapplication.activities.ui.adapters.TeamAdapter
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.databinding.FragmentNewTaskBinding
@@ -49,6 +48,15 @@ class NewTaskFragment : Fragment() {
     private var _binding: FragmentNewTaskBinding? = null
     private val b get() = _binding!!
 
+    val stateAdapter: ArrayAdapter<String> by lazy {
+        ArrayAdapter(
+            requireContext(),
+            R.layout.item_state,
+            R.id.state_name,
+            listOf("TODO", "IN PROGRESS", "DONE")
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,9 +77,7 @@ class NewTaskFragment : Fragment() {
                 .setTitleText("Select date")
                 .build()
 
-        val items = listOf("TODO", "IN PROGRESS", "DONE")
-        val adapter = ArrayAdapter(requireContext(), R.layout.item_state, R.id.state_name, items)
-        b.stateTextView.setAdapter(adapter)
+        b.stateTextView.setAdapter(stateAdapter)
 
         teamAdapter = TeamAdapter(teamMember)
 

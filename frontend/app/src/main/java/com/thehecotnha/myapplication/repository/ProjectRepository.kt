@@ -74,18 +74,19 @@ class ProjectRepository {
         }
     }
 
-    suspend fun deleteProject(projectId: String): Response<Boolean> {
+    suspend fun deleteProject(projectId: String): Response<Void> {
         return try {
             projectRef.document(projectId).delete()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "deleteProject: deleted id=$projectId")
-                    } else {
-                        Log.e(TAG, "deleteProject: failed", task.exception)
-                    }
-                }.await()
+                .addOnSuccessListener { task ->
+                    Log.d(TAG, "deleteProject: deleted id=$projectId")
 
-            Response.Success(true)
+                }
+                .addOnFailureListener {
+                    e -> Log.e(TAG, "deleteProject: failed", e)
+                }
+                .await()
+
+            Response.Success(null)
         } catch (e: Exception) {
             Response.Failure(e)
         }
@@ -134,7 +135,46 @@ class ProjectRepository {
         }
     }
 
+    suspend fun updateTask(task: Task) : Response<Void> {
+        return try {
+            projectRef.document(task.projectId)
+                .collection("tasksAffected")
+                .document(task.id)
+                .set(task)
+                .addOnSuccessListener {
+                    Log.d(
+                        TAG,
+                        "updateTask: updated task id=${task.id} for projectId=${task.projectId}"
+                    )
+                }
+                .await()
+            Response.Success(null)
+        } catch (e: Exception) {
+            Log.e(
+                TAG,
+                "updateTask: failed to update task id=${task.id} for projectId=${task.projectId}",
+                e
+            )
+            Response.Failure(e)
+        }
+    }
 
+    suspend fun deleteTask(projectId: String, taskId: String) : Response<Void> {
+        return try {
+            projectRef.document(projectId)
+                .collection("tasksAffected")
+                .document(taskId)
+                .delete()
+                .addOnSuccessListener {
+                    Log.d(TAG, "deleteTask: deleted task id=$taskId for projectId=$projectId")
+                }
+                .await()
+            Response.Success(null)
+        } catch (e: Exception) {
+            Log.e(TAG, "deleteTask: failed to delete task id=$taskId for projectId=$projectId", e)
+            Response.Failure(e)
+        }
+    }
      fun getTaskFilted(projectId: String, filterName: String): Query {
         val query = projectRef.document(projectId)
             .collection("tasksAffected")
