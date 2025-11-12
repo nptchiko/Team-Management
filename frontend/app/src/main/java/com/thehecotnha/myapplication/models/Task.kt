@@ -1,17 +1,19 @@
 package com.thehecotnha.myapplication.models
 
+import android.os.Parcelable
 import com.google.firebase.Timestamp
-
+import kotlinx.parcelize.Parcelize
 
 
 /**
  * Task
  */
+@Parcelize
 data class Task(
     var id: String = "",
     var title: String = "",
     var description: String = "",
- //   var startDate: Timestamp? = null,
+    var startDate: Timestamp? = Timestamp.now(),
     var endDate: Timestamp? = null,
     var state: String = "TODO",
     var projectId: String = "",
@@ -20,4 +22,4 @@ data class Task(
     var updatedBy: String = "",
     var searchTitle: String = "",
    // var availableDays: MutableList<Timestamp> = mutableListOf()
-)
+) : Parcelable

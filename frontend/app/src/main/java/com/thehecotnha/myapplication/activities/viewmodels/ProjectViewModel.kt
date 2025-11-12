@@ -53,7 +53,7 @@ class ProjectViewModel : ViewModel() {
         projectRepo.getTaskFilted(projectId, filterName)
             .addSnapshotListener { value, error ->
             if (value != null){
-                val result = value.toObjects(com.thehecotnha.myapplication.models.Task::class.java)
+                val result = value.toObjects(Task::class.java)
                 Toast.makeText(context, "Found ${result.size} tasks", Toast.LENGTH_SHORT).show()
                 _projectTask.postValue(result)
             } else {
@@ -70,4 +70,13 @@ class ProjectViewModel : ViewModel() {
         _taskState.value = projectRepo.saveTask(task)
     }
 
+    fun updateTask(task: Task) = viewModelScope.launch {
+        task.updatedBy = userRepo.currentUser().uid
+        _taskState.value = Response.Loading
+        _taskState.value = projectRepo.updateTask(task)
+    }
+    fun deleteTask(projectId: String, taskId: String) = viewModelScope.launch {
+        _taskState.value = Response.Loading
+        _taskState.value = projectRepo.deleteTask(projectId, taskId)
+    }
 }
