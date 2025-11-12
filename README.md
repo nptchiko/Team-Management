@@ -19,6 +19,15 @@ Basic mobile project management app
 #### Project detail
 <img width="366" height="787" alt="image" src="https://github.com/user-attachments/assets/cbd46719-5190-4e46-9e4c-169a1d20f758" />
 
+#### Task detail
+<img width="384" height="842" alt="image" src="https://github.com/user-attachments/assets/3d34c2c5-ff4b-412d-b18c-386a9882d058" />
+
+#### Delete task/project
+<img width="380" height="842" alt="image" src="https://github.com/user-attachments/assets/0ab490aa-c035-49a9-802e-69a44d89a448" />
+<img width="374" height="835" alt="image" src="https://github.com/user-attachments/assets/c80d634a-40da-41d5-b83b-aacb0fffb5a3" />
+
+
+
 
 
 
