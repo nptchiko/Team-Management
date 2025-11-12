@@ -74,18 +74,19 @@ class ProjectRepository {
         }
     }
 
-    suspend fun deleteProject(projectId: String): Response<Boolean> {
+    suspend fun deleteProject(projectId: String): Response<Void> {
         return try {
             projectRef.document(projectId).delete()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "deleteProject: deleted id=$projectId")
-                    } else {
-                        Log.e(TAG, "deleteProject: failed", task.exception)
-                    }
-                }.await()
+                .addOnSuccessListener { task ->
+                    Log.d(TAG, "deleteProject: deleted id=$projectId")
 
-            Response.Success(true)
+                }
+                .addOnFailureListener {
+                    e -> Log.e(TAG, "deleteProject: failed", e)
+                }
+                .await()
+
+            Response.Success(null)
         } catch (e: Exception) {
             Response.Failure(e)
         }

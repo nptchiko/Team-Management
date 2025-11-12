@@ -4,11 +4,13 @@ import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.DashboardActivity
 import com.thehecotnha.myapplication.activities.ui.tasks.NewTaskFragment
@@ -19,6 +21,10 @@ import com.thehecotnha.myapplication.databinding.FragmentProjectDetailBinding
 import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
+import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.utils.showAleartDialog
+import com.thehecotnha.myapplication.utils.showProgressDialog
+import com.thehecotnha.myapplication.utils.showSuccessDialog
 
 
 @Suppress("DEPRECATION")
@@ -97,9 +103,74 @@ class ProjectDetailFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        b.toolbarProjectDetail.setOnMenuItemClickListener {
+            handleToolbarMenuClick(it)
+        }
+
+
+
         return root
     }
 
+    fun handleToolbarMenuClick(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_delete -> {
+
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("WARNING")
+                    .setMessage("Are you sure you want to delete this project?\nAll tasks under this project will also be deleted.")
+                    .setNegativeButton("Decline") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton("Accept") { dialog, which ->
+                        val progressDialog =
+                            showProgressDialog(requireContext(), "Deleting project...")
+                        viewModel._taskState.observe(viewLifecycleOwner) {
+                            when (it) {
+                                is Response.Success -> {
+                                    progressDialog.dismiss()
+                                    showSuccessDialog(
+                                        requireContext(),
+                                        "Success",
+                                        "Task deleted successfully."
+                                    )
+                                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                                }
+
+                                is Response.Failure -> {
+                                    progressDialog.dismiss()
+                                    showAleartDialog(
+                                        requireContext(),
+                                        "Oops!",
+                                        it.e?.message ?: "Failed to delete task."
+                                    )
+                                }
+
+                                Response.Idle -> {}
+                                Response.Loading -> {
+                                    progressDialog.show()
+                                }
+                            }
+                        }
+                        viewModel.deleteProject(
+                            project!!.id!!
+                        )
+                    }
+                    .show()
+                true
+            }
+
+            else -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Other action clicked with id=${item.itemId}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
     companion object {
         private const val ARG_PROJECT = "project_arg"
         @JvmStatic

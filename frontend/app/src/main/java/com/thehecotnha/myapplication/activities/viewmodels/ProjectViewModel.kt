@@ -79,4 +79,9 @@ class ProjectViewModel : ViewModel() {
         _taskState.value = Response.Loading
         _taskState.value = projectRepo.deleteTask(projectId, taskId)
     }
+
+    fun deleteProject(projectId: String) = viewModelScope.launch {
+        _taskState.value = Response.Loading
+        _taskState.value = projectRepo.deleteProject(projectId)
+    }
 }
