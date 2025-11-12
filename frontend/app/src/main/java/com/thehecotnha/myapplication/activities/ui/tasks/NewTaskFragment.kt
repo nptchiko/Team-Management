@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.Timestamp
+import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.NewTaskViewModel
 import com.thehecotnha.myapplication.activities.ui.adapters.TeamAdapter
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
@@ -61,22 +64,26 @@ class NewTaskFragment : Fragment() {
         _binding = FragmentNewTaskBinding.inflate(inflater, container, false)
         val root = b.root
 
+        val datePicker =
+            MaterialDatePicker.Builder<Date>.datePicker()
+                .setTitleText("Select date")
+                .build()
+
+        val items = listOf("TODO", "IN PROGRESS", "DONE")
+        val adapter = ArrayAdapter(requireContext(), R.layout.item_state, R.id.state_name, items)
+        b.stateTextView.setAdapter(adapter)
+
         teamAdapter = TeamAdapter(teamMember)
 
         b.rvTeam.adapter = teamAdapter
         b.tvTasksProjectName.text = project!!.title
 
-        val datePicker =
-            MaterialDatePicker.Builder<Date>.datePicker()
-                .setTitleText("Select date")
-                .build()
 
         b.ivDueDate.setOnClickListener {
             datePicker.show(parentFragmentManager, "Pick due date for task")
         }
 
         datePicker.addOnPositiveButtonClickListener { selection ->
-            val date = Date(selection)
             b.tvDueDate.text = datePicker.headerText
         }
 
@@ -96,6 +103,22 @@ class NewTaskFragment : Fragment() {
                 Toast.makeText(requireContext(), "Due date is required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            val state = b.menu.editText?.text.toString().trim().ifEmpty {
+                Toast.makeText(requireContext(), "State is required", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val task = Task(
+                title = title,
+                description = description,
+                state = state,
+                endDate = Timestamp(dueDate),
+                assignedTo = teamMember,
+                projectId = project!!.id!!,
+                projectName = project!!.title,
+                searchTitle = title.lowercase(),
+            )
 
             val progressDialog = showProgressDialog(requireContext(),"Saving task...")
 
@@ -118,17 +141,7 @@ class NewTaskFragment : Fragment() {
 
             }
 
-            viewModel.saveNewTask(
-                Task(
-                    title = title,
-                    description = description,
-                    endDate = Timestamp(dueDate),
-                    assignedTo = teamMember,
-                    projectId = project!!.id!!,
-                    projectName = project!!.title,
-                    searchTitle = title.lowercase(),
-                )
-            )
+            viewModel.saveNewTask(task)
         }
 
         b.btAddUser.setOnClickListener {
@@ -136,6 +149,10 @@ class NewTaskFragment : Fragment() {
             teamAdapter.notifyItemInserted(teamMember.size-1)
         }
 
+        b.stateTextView.setOnItemClickListener { parent, _, position, id ->
+            val selectedState = parent.getItemAtPosition(position).toString()
+            Toast.makeText(requireContext(), "Selected state: ${b.menu.editText?.text.toString()}", Toast.LENGTH_SHORT).show()
+        }
         return root
     }
 
