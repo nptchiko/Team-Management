@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 import com.thehecotnha.myapplication.models.User
-import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.models.Response
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 

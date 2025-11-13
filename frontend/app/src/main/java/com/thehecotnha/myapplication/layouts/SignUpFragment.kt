@@ -17,7 +17,7 @@ import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel
 import com.thehecotnha.myapplication.databinding.FragmentSignUpBinding
-import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.utils.showProgressDialog
 
 

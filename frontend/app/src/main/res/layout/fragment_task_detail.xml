@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/salmon_300"
+            android:background="@color/purple_400"
             app:elevation="0dp">
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -78,7 +78,7 @@
                         android:id="@+id/edt_task_title"
                         android:layout_width="match_parent"
                         android:fontFamily="@font/poppins"
-                        android:background="@drawable/edit_text_background"
+                        android:background="@drawable/edit_text_background_purple"
                         android:layout_height="wrap_content"
                         android:inputType="none"
                         android:text="Internal Demo" />
@@ -227,7 +227,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cassandra"
-                            app:chipBackgroundColor="#FFEBEE"
+                            app:chipBackgroundColor="#E3F2FD"
                             app:closeIconVisible="true" />
 
                         <com.google.android.material.chip.Chip
@@ -235,7 +235,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cindy"
-                            app:chipBackgroundColor="#FFEBEE"
+                            app:chipBackgroundColor="#E3F2FD"
                             app:closeIconVisible="true" />
                     </com.google.android.material.chip.ChipGroup>
 
@@ -243,7 +243,7 @@
                         android:id="@+id/btn_add_member"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:background="@drawable/edit_text_background"
+                        android:background="@drawable/edit_text_background_purple"
                         android:layout_marginStart="8dp"
                         android:contentDescription="Add team member"
                         android:src="@drawable/outline_add_24" />
@@ -273,7 +273,7 @@
                         android:id="@+id/edt_task_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background"
+                        android:background="@drawable/edit_text_background_purple"
                         android:minLines="4"
                         android:fontFamily="@font/poppins"
                         android:gravity="top"
@@ -295,7 +295,7 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/poppins_medium"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/salmon_300"
+        android:backgroundTint="@color/purple_400"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:text="Save changes"
