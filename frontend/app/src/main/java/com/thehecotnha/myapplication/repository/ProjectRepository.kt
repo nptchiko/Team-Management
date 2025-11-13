@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.Query
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
-import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.models.Response
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 import java.util.UUID
@@ -56,19 +56,15 @@ class ProjectRepository {
         return projectRef.whereArrayContains("teams", userId)
     }
 
-    suspend fun updateProject(project: Project): Response<Project> {
+    suspend fun updateProject(project: Project): Response<Void> {
         return try {
             val id = project.id ?: return Response.Failure(Exception("Project id is null"))
             projectRef.document(id).set(project)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "updateProject: updated id=$id")
-                    } else {
-                        Log.e(TAG, "updateProject: failed", task.exception)
-                    }
+                .addOnSuccessListener {
+                   Log.d(TAG, "updateProject: updated id=$id")
                 }.await()
 
-            Response.Success(project)
+            Response.Success(null)
         } catch (e: Exception) {
             Response.Failure(e)
         }

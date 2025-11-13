@@ -23,7 +23,7 @@ import com.thehecotnha.myapplication.models.ProjectItem
 import com.thehecotnha.myapplication.models.QuickAccessItem
 import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.models.ViewItem
-import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel

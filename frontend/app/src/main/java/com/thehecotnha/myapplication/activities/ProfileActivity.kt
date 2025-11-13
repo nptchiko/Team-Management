@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.thehecotnha.myapplication.databinding.ActivityProfileBinding
-import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog

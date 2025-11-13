@@ -1,4 +1,4 @@
-package com.thehecotnha.myapplication.utils
+package com.thehecotnha.myapplication.models
 
 /**
  * A generic sealed class that represents the result of an operation.
@@ -17,5 +17,4 @@ sealed class Response<out T> {
         data class Failure(
             val e: Exception?
         ) : Response<Nothing>()
-
 }

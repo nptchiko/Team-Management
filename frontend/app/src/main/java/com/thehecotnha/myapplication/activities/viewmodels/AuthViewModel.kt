@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.repository.UserRepository
-import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.models.Response
 import kotlinx.coroutines.launch
 
 class AuthViewModel (): ViewModel() {
