@@ -21,7 +21,7 @@ import com.thehecotnha.myapplication.databinding.FragmentProjectDetailBinding
 import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
-import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
@@ -58,6 +58,8 @@ class ProjectDetailFragment : Fragment() {
     ): View {
         _binding = FragmentProjectDetailBinding.inflate(inflater, container, false)
         val root = b.root
+
+
 
         b.tvProjectTitle.text = project?.title
         b.tvProjectDescription.text = project?.description
@@ -116,7 +118,6 @@ class ProjectDetailFragment : Fragment() {
     fun handleToolbarMenuClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_delete -> {
-
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("WARNING")
                     .setMessage("Are you sure you want to delete this project?\nAll tasks under this project will also be deleted.")
@@ -160,7 +161,11 @@ class ProjectDetailFragment : Fragment() {
                     .show()
                 true
             }
-
+            R.id.action_edit -> {
+                val editProjectFragment = EditProjectFragment.newInstance(project!!)
+                (activity as? DashboardActivity)?.loadFragment(editProjectFragment)
+                true
+            }
             else -> {
                 Toast.makeText(
                     requireContext(),
@@ -172,7 +177,7 @@ class ProjectDetailFragment : Fragment() {
         }
     }
     companion object {
-        private const val ARG_PROJECT = "project_arg"
+        const val ARG_PROJECT = "project_arg"
         @JvmStatic
         fun newInstance(project: Project) =
             ProjectDetailFragment().apply {

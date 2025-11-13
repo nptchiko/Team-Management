@@ -18,7 +18,7 @@ import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.databinding.FragmentNewTaskBinding
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
-import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
@@ -158,6 +158,10 @@ class NewTaskFragment : Fragment() {
         b.stateTextView.setOnItemClickListener { parent, _, position, id ->
             val selectedState = parent.getItemAtPosition(position).toString()
             Toast.makeText(requireContext(), "Selected state: ${b.menu.editText?.text.toString()}", Toast.LENGTH_SHORT).show()
+        }
+
+        b.toolbarNewTask.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         return root
     }

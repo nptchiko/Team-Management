@@ -12,7 +12,7 @@ import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.repository.ProjectRepository
 import com.thehecotnha.myapplication.repository.UserRepository
-import com.thehecotnha.myapplication.utils.Response
+import com.thehecotnha.myapplication.models.Response
 import kotlinx.coroutines.launch
 
 class ProjectViewModel : ViewModel() {
@@ -74,6 +74,11 @@ class ProjectViewModel : ViewModel() {
         task.updatedBy = userRepo.currentUser().uid
         _taskState.value = Response.Loading
         _taskState.value = projectRepo.updateTask(task)
+    }
+
+    fun updateProject(project: Project) = viewModelScope.launch {
+        _taskState.value = Response.Loading
+        _taskState.value = projectRepo.updateProject(project)
     }
     fun deleteTask(projectId: String, taskId: String) = viewModelScope.launch {
         _taskState.value = Response.Loading

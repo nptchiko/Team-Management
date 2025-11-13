@@ -8,6 +8,7 @@ import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.ui.dashboard.DashboardFragment
 import com.thehecotnha.myapplication.activities.ui.home.HomeFragment
 import com.thehecotnha.myapplication.activities.ui.notifications.NotificationsFragment
+import com.thehecotnha.myapplication.activities.ui.project.EditProjectFragment
 import com.thehecotnha.myapplication.activities.ui.project.NewProjectFragment
 import com.thehecotnha.myapplication.activities.ui.project.ProjectDetailFragment
 import com.thehecotnha.myapplication.activities.ui.tasks.NewTaskFragment
@@ -33,7 +34,8 @@ class DashboardActivity : AppCompatActivity() {
             if (currentFragment is NewProjectFragment ||
                 currentFragment is ProjectDetailFragment ||
                 currentFragment is NewTaskFragment ||
-                currentFragment is TaskDetailFragment
+                currentFragment is TaskDetailFragment ||
+                currentFragment is EditProjectFragment
             ) {
                 binding.bottomNavigation.visibility = View.GONE
                 binding.ivAdd.visibility = View.GONE
@@ -53,7 +55,6 @@ class DashboardActivity : AppCompatActivity() {
                 }
                 R.id.navigation_projects -> {
                     loadFragment(ProjectDetailFragment())
-
                     true
                 }
                 R.id.navigation_dashboards -> {

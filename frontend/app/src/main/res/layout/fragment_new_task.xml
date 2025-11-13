@@ -37,7 +37,7 @@
                 android:text="Create"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                app:backgroundTint="@color/salmon_400"
+                app:backgroundTint="@color/purple_400"
                 app:cornerRadius="8dp" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -131,6 +131,7 @@
                 android:id="@+id/edt_task_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background_purple"
                 android:fontFamily="@font/poppins"
                 android:hint="@string/title_hint"
                 android:inputType="text"
@@ -171,6 +172,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
+
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp">
 
@@ -185,6 +187,7 @@
                         android:id="@+id/tv_due_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/poppins"
                         android:hint="@string/due_date"
@@ -251,6 +254,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_task_description"
                 android:layout_width="match_parent"
+                android:background="@drawable/edit_text_background_purple"
                 android:layout_height="120dp"
                 android:fontFamily="@font/poppins"
                 android:gravity="top"
