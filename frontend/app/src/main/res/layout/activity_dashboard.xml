@@ -6,311 +6,33 @@
     android:layout_height="match_parent"
     android:background="@color/blackTransparent10">
 
-<!--
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
-        android:background="#FFF8E1"
-        app:elevation="0dp">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/profileImageBackground"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_launcher_background" />
-
-                <ImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="35dp"
-                    android:layout_height="40dp"
-                    android:layout_alignTop="@+id/profileImageBackground"
-                    android:layout_alignEnd="@+id/profileImageBackground"
-                    android:layout_alignBottom="@+id/profileImageBackground"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="9dp"
-                    android:layout_marginBottom="5dp"
-                    android:src="@android:mipmap/sym_def_app_icon" />
-
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Add"
-                    android:src="@mipmap/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/heyText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_toEndOf="@+id/profileImageBackground"
-                    android:text="Hey."
-                    android:textColor="#172B4D"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/userNameText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/heyText"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_toEndOf="@+id/profileImageBackground"
-                    android:text="letthewindtellyou"
-                    android:textColor="#172B4D"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-
-            </RelativeLayout>
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#FFFFFF"
-                app:strokeWidth="0dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="12dp"
-                        android:contentDescription="Search"
-                        android:src="@mipmap/ic_launcher" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Search"
-                        android:textColor="#7A869A"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Quick access"
-                    android:textColor="#172B4D"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="Setup"
-                    android:textColor="#0052CC"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:contentDescription="Expand"
-                    android:src="@mipmap/ic_launcher" />
-
-            </LinearLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/quickAccessRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:nestedScrollingEnabled="false" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Recent Items"
-                    android:textColor="#172B4D"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/expand_img_2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:contentDescription="Expand"
-                    android:src="@drawable/ic_expand_more" />
-
-            </LinearLayout>
-
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="12dp"
-                    android:text="Today"
-                    android:textColor="#7A869A"
-                    android:textSize="14sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recentItemsRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/labelOverdue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Overdue"
-                    android:textColor="#D14343"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/overdueRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="189dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/labelIncoming"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Incoming"
-                    android:textColor="#172B4D"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/incomingRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:nestedScrollingEnabled="false" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
--->
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#FFF8E1"
-        android:elevation="5dp"
+        android:background="@color/white"
         app:itemIconTint="@color/bottom_nav_color"
-        app:itemTextAppearanceActive="@style/TextAppearance.AppCompat.Caption"
-        app:itemTextAppearanceInactive="@style/TextAppearance.AppCompat.Caption"
         app:itemTextColor="@color/bottom_nav_color"
-        app:labelVisibilityMode="unlabeled"
         app:layout_anchorGravity="bottom|center"
         app:menu="@menu/bottom_nav_menu">
+
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_nav_activity_dashboard"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/mobile_navigation"
+            />
+
     <ImageView
         android:id="@+id/iv_add"
         android:layout_width="wrap_content"
@@ -321,18 +43,6 @@
         android:src="@drawable/ic_add_black_24dp"
         android:translationZ="8dp"
         app:layout_anchor="@+id/bottomNavigation"
-        app:layout_anchorGravity="top|center" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_nav_activity_dashboard"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/mobile_navigation" />
+        app:layout_anchorGravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

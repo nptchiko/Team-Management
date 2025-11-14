@@ -44,6 +44,10 @@ class NewTaskFragment : Fragment() {
     private  val viewModel by lazy {
         ViewModelProvider(this).get(ProjectViewModel::class.java)
     }
+
+    private val authViewModel by lazy {
+        ViewModelProvider(this).get(com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel::class.java)
+    }
     private var project: Project? = null
     private var _binding: FragmentNewTaskBinding? = null
     private val b get() = _binding!!
@@ -151,7 +155,8 @@ class NewTaskFragment : Fragment() {
         }
 
         b.btAddUser.setOnClickListener {
-            teamMember.add("usernameHolder")
+            teamMember.add(authViewModel._currentUser!!.uid)
+            Toast.makeText(requireContext(), "Added ${authViewModel._currentUser!!.displayName} to team", Toast.LENGTH_SHORT).show()
             teamAdapter.notifyItemInserted(teamMember.size-1)
         }
 

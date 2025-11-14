@@ -74,7 +74,7 @@ class ProjectDetailFragment : Fragment() {
 
 
         viewModel._projectTask.observe(viewLifecycleOwner) { tasks ->
-            todoAdapter = TaskDetailAdapter(tasks.filter { task -> task.state == "TODO" })  { selected ->
+            todoAdapter = TaskDetailAdapter(tasks!!.filter { task -> task.state == "TODO" })  { selected ->
                 loadTask(selected)
             }
             b.rvTodoTasks.adapter = todoAdapter
@@ -187,7 +187,7 @@ class ProjectDetailFragment : Fragment() {
             }
     }
 
-    private fun loadTask(taskInfo: Task) {
+    fun loadTask(taskInfo: Task) {
         val taskDetailFragment = TaskDetailFragment.newInstance(taskInfo)
         (activity as? DashboardActivity)?.loadFragment(taskDetailFragment)
     }

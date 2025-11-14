@@ -22,9 +22,9 @@ class ProjectRepository {
     val _allProjects by lazy {
         projectRef.orderBy("title")
     }
-    private val liveFirebaseUser: MutableLiveData<FirebaseUser> by lazy {
 
-        MutableLiveData()
+    val _allTasks by lazy {
+        FirebaseModule.taskCollection
     }
 
     fun currentUser(): FirebaseUser {

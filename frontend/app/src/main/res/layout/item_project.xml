@@ -11,8 +11,8 @@
     app:cardCornerRadius="10dp"
     app:cardElevation="2dp"
     app:strokeWidth="1dp"
-    app:strokeColor="@color/black"
     app:cardPreventCornerOverlap="false"
+    app:strokeColor="@color/purple_400"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -25,89 +25,122 @@
         android:paddingTop="16dp">
 
         <!-- Title   -->
+
         <TextView
             android:id="@+id/tv_title_projectCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title"
             android:fontFamily="@font/poppins_bold"
             android:includeFontPadding="false"
-            android:textSize="18sp"
+            android:paddingBottom="6dp"
+            android:text="@string/title"
             android:textColor="@color/brown_800"
-            android:paddingBottom="6dp"/>
-
-        <!--  State  -->
-        <TextView
-            android:id="@+id/tv_state_projectCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_error_border_shadow"
-            android:fontFamily="@font/poppins_medium"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="@string/state_progress"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="12sp"/>
+            android:textSize="18sp" />
 
         <LinearLayout
-            android:paddingTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="6dp">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
-                android:fontFamily="@font/poppins"
-                android:text="Deadline"
-                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_date_projectCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:textSize="12sp"
                 android:layout_weight="1"
-                android:textColor="@color/brown_800"/>
+                android:fontFamily="@font/poppins"
+                android:hint="Due date"
+                android:textColor="@color/brown_800"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!--  State  -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="203dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:fontFamily="@font/poppins"
+                android:text="Team"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_team_count"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:fontFamily="@font/poppins_bold"
+                android:text="36"
+                android:textColor="@color/brown_800"
+                android:textSize="12sp" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:paddingBottom="16dp">
+            android:layout_gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="203dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:fontFamily="@font/poppins"
                 android:text="Tasks left"
-                android:fontFamily="@font/poppins"
-                android:textSize="12sp"
-                android:layout_weight="50"/>
+                android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/tv_tasks_projectCard"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_tasks_left"
+                android:layout_width="35dp"
                 android:layout_height="wrap_content"
-                android:text="25"
+                android:layout_weight="50"
+                android:fontFamily="@font/poppins_bold"
+                android:text="36"
                 android:textColor="@color/brown_800"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="203dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
                 android:fontFamily="@font/poppins"
-                android:textSize="12sp"
-                android:layout_weight="1"/>
+                android:text="Progress"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_tasks_progress"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:fontFamily="@font/poppins_bold"
+                android:text="36%"
+                android:textColor="@color/brown_800"
+                android:textSize="12sp" />
+
         </LinearLayout>
 
         <ProgressBar
-            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
             android:id="@+id/progress_bar_projectCard"
-            android:layout_height="12dp"
             style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
             android:max="100"
-            android:progress="40"
-            android:progressDrawable="@drawable/progressbar"/>
+            android:progress="36"
+            android:progressDrawable="@drawable/progressbar" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
