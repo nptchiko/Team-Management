@@ -1,6 +1,6 @@
 package com.thehecotnha.myapplication.models
 
-import android.health.connect.datatypes.units.Percentage
+import java.util.Date
 
 
 data class QuickAccessItem(
@@ -9,10 +9,12 @@ data class QuickAccessItem(
     val icon: Int
 )
 
-data class ViewItem(
+data class HomeTaskItem(
     val title: String,
-    val subtitle: String,
-    val icon: Int
+    val projName: String,
+    val dueDate: Date,
+    val assigneeName: String,
+    val idx:Int
 )
 
 data class ProjectItem(
@@ -22,5 +24,6 @@ data class ProjectItem(
     val state: String,
     val dueDate: String,
     val taskLefts: Int,
-    val projectPercent: Int
+    val projectPercent: Int,
+    val team: Int,
 )

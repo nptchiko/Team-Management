@@ -4,8 +4,10 @@ package com.thehecotnha.myapplication.utils
 object FBConstant{
     const val COLLECTION_PROJECT = "projects"
     const val COLLECTION_USER = "users"
-    const val COLLECTION_TASK = "tasks"
+    const val COLLECTION_TASK = "tasksAffected"
     const val COLLECTION_NOTIFICATION = "notifications"
+
+
 }
 
 

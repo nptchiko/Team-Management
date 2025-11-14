@@ -25,6 +25,8 @@ class AuthViewModel (): ViewModel() {
     private val _userState: MutableLiveData<Response<User>> = MutableLiveData()
     val userState : LiveData<Response<User>> = _userState
 
+    val _currentUser: FirebaseUser?
+        get() = repo.currentUser()
     fun signUp(user: User) = viewModelScope.launch {
         if (_signUpState.value is Response.Idle)
             _signUpState.value = Response.Loading

@@ -155,6 +155,7 @@ class TaskDetailFragment : Fragment() {
     }
 
     fun handleToolbarMenuClick(item: MenuItem): Boolean {
+        val progressDialog = showProgressDialog(requireContext(), "Deleting task...")
         return when (item.itemId){
             R.id.action_delete -> {
 
@@ -165,7 +166,7 @@ class TaskDetailFragment : Fragment() {
                         dialog.dismiss()
                     }
                     .setPositiveButton("Accept") { dialog, which ->
-                        val progressDialog = showProgressDialog(requireContext(), "Deleting task...")
+
                         viewModel._taskState.observe(viewLifecycleOwner){
                             when (it) {
                                 is Response.Success -> {

@@ -2,17 +2,8 @@ package com.thehecotnha.myapplication.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.jiradashboard.QuickAccessAdapter.ViewHolder
-import com.example.jiradashboard.RecentItemsAdapter
-import com.thehecotnha.myapplication.R
-import com.thehecotnha.myapplication.databinding.ItemProjectBinding
 import com.thehecotnha.myapplication.databinding.ItemTaskBinding
-import com.thehecotnha.myapplication.models.CalendarDate
-import com.thehecotnha.myapplication.models.Project
-import com.thehecotnha.myapplication.models.ProjectItem
 import com.thehecotnha.myapplication.models.Task
 
 

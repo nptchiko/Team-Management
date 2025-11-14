@@ -3,6 +3,7 @@ package com.thehecotnha.myapplication.repository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.thehecotnha.myapplication.utils.FBConstant
 
 /**
@@ -24,8 +25,8 @@ object FirebaseModule {
     val projectCollection: CollectionReference by lazy {
         firestore.collection(FBConstant.COLLECTION_PROJECT)
     }
-    val taskCollection: CollectionReference by lazy {
-        firestore.collection(FBConstant.COLLECTION_TASK)
+    val taskCollection: Query by lazy {
+        firestore.collectionGroup(FBConstant.COLLECTION_TASK)
     }
     val notificationCollection: CollectionReference by lazy {
         firestore.collection(FBConstant.COLLECTION_NOTIFICATION)
