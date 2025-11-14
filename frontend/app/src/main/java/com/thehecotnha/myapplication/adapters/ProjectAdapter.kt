@@ -1,12 +1,11 @@
 package com.thehecotnha.myapplication.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.jiradashboard.QuickAccessAdapter.ViewHolder
-import com.example.jiradashboard.RecentItemsAdapter
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.databinding.ItemProjectBinding
 import com.thehecotnha.myapplication.models.CalendarDate
@@ -25,14 +24,15 @@ class ProjectAdapter(
     inner class ProjectViewHolder(private val binding: ItemProjectBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+
         fun updateUIWith(project: ProjectItem) {
 
             binding.tvTitleProjectCard.text = project.title
-            binding.tvStateProjectCard.text = project.state
-            binding.tvTasksProjectCard.text = project.taskLefts.toString()
+            binding.tvTasksLeft.text = project.taskLefts.toString()
             binding.tvDateProjectCard.text = project.dueDate
+            binding.tvTasksProgress.text = project.projectPercent.toString() + "%"
             binding.progressBarProjectCard.progress = project.projectPercent
-
+            binding.tvTeamCount.text = project.team.toString()
 
             // from the home => go the corresponding project
             binding.root.setOnClickListener {

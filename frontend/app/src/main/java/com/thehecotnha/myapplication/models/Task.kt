@@ -18,6 +18,7 @@ data class Task(
     var state: String = "TODO",
     var projectId: String = "",
     var projectName: String = "",
+    // User id
     var assignedTo: MutableList<String> = mutableListOf(),
     var updatedBy: String = "",
     var searchTitle: String = "",
