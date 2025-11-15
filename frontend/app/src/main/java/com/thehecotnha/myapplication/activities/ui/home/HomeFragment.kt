@@ -62,12 +62,14 @@ class HomeFragment : Fragment() {
         binding.rvTodayTasks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvIncoming.layoutManager = LinearLayoutManager(requireContext())
 
+        // ✅ Đăng ký observer TRƯỚC khi gọi getUserData()
         // retrieve user data
         // tracking user data
         viewModel.userState.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Success -> {
                     userInfo = response.data!!
+                    // ✅ Hiển thị thông tin user đã đăng nhập
                     binding.userNameText.text = userInfo.username
                 }
                 is Response.Failure -> {
@@ -75,9 +77,14 @@ class HomeFragment : Fragment() {
                     binding.userNameText.text = "Guest"
                 }
                 Response.Idle -> {}
-                Response.Loading -> {}
+                Response.Loading -> {
+                    // Có thể hiển thị loading indicator nếu cần
+                }
             }
         }
+        
+        // ✅ Gọi getUserData() ngay sau khi đăng ký observer
+        viewModel.getUserData()
 
         // tracking project data
         projViewModel._project.observe(viewLifecycleOwner){
@@ -141,7 +148,7 @@ class HomeFragment : Fragment() {
 
         projViewModel.getAllUserTasks()
 
-        viewModel.getUserData()
+        // ✅ getUserData() đã được gọi ở trên, không cần gọi lại
         // retrieve user's project
         projViewModel.getUserProjects()
 
