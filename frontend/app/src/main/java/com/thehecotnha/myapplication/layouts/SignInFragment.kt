@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.thehecotnha.myapplication.activities.MainActivity
 import com.thehecotnha.myapplication.R
+import com.thehecotnha.myapplication.activities.DashboardActivity
 import com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel
 import com.thehecotnha.myapplication.databinding.FragmentSignInBinding
 import com.thehecotnha.myapplication.models.Response
@@ -188,7 +189,7 @@ class SignInFragment : Fragment() {
                 }
                 is Response.Success -> {
                     loadingDialog.dismiss()
-                    val intent: Intent = Intent(activity, MainActivity::class.java)
+                    val intent: Intent = Intent(activity, DashboardActivity::class.java)
                     startActivity(intent)
                     Toast.makeText(requireContext(), "Welcome", Toast.LENGTH_SHORT).show()
 
