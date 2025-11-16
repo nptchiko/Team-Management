@@ -34,7 +34,7 @@
                 android:background="@drawable/rounded_border"
                 android:onClick="onProfileButtonClick"
                 android:src="@drawable/avatar_12"
-                app:shapeAppearanceOverlay="@style/CircleImageViewStyle" />
+                 />
 
         </FrameLayout>
         <TextView

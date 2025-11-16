@@ -4,30 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.thehecotnha.myapplication.adapters.ProjectAdapter
+import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.databinding.FragmentDashboardBinding
-import com.thehecotnha.myapplication.models.CalendarDate
-import com.thehecotnha.myapplication.models.ProjectItem
 import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
+import java.util.Date
 
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var projectAdapter: ProjectAdapter
-    
+
     private val projectViewModel by lazy {
         ViewModelProvider(this).get(ProjectViewModel::class.java)
     }
-    private var tasksByProject: Map<String, List<Task>> = emptyMap()
-    private var projectsList: List<com.thehecotnha.myapplication.models.Project>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,102 +27,101 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        setupRecyclerView()
+        
         observeData()
         loadData()
-        
-        return root
+
+        return binding.root
     }
 
     private fun observeData() {
-        // Observe tasks để group theo projectId
         projectViewModel._allTasks.observe(viewLifecycleOwner) { tasks ->
-            tasksByProject = tasks.groupBy { it.projectId }
-        }
-
-        // Observe projects và map sang ProjectItem
-        projectViewModel._project.observe(viewLifecycleOwner) { projects ->
-            projectsList = projects
-            var cnt = 0
-            val projectItems = projects?.map { project ->
-                val tasks = tasksByProject[project.id] ?: emptyList()
-                val total = tasks.size
-                val done = tasks.count { it.state == "DONE" }
-                val tasksLeft = total - done
-                val percent = if (total > 0) (done * 100) / total else 0
-                
-                ProjectItem(
-                    title = project.title,
-                    pos = cnt++,
-                    state = project.state,
-                    dueDate = CalendarDate(project.dueDate!!.toDate()).calendar,
-                    taskLefts = tasksLeft,
-                    projectPercent = percent,
-                    team = project.teams.size
-                )
-            } ?: emptyList()
-
-            projectAdapter = ProjectAdapter(projectItems) { projectItem ->
-                showCardTask(projectItem)
-            }
-            binding.projectRecyclerView.adapter = projectAdapter
-            
-            // Hiển thị project đầu tiên nếu có
-            if (projectItems.isNotEmpty()) {
-                showCardTask(projectItems.first())
+            if (tasks != null) {
+                updateSummaryCards(tasks)
+                updateStatusOverview(tasks)
             }
         }
     }
 
     private fun loadData() {
-        // Load dữ liệu từ Firebase
         projectViewModel.getAllUserTasks()
-        projectViewModel.getUserProjects()
     }
 
-    private fun setupRecyclerView() {
-        // RecyclerView sẽ được setup trong observeData()
+    private fun updateSummaryCards(tasks: List<Task>) {
+        // Total tasks done
+        val doneCount = tasks.count { it.state == "DONE" }
+        binding.tvDoneCount.text = "$doneCount done"
+
+        // Set updated count to 0 as updatedAt is not available
+//        binding.tvUpdatedCount.text = "0 updated"
+
+        // Total tasks created (which is all of them)
+        val createdCount = tasks.size
+        binding.tvCreatedCount.text = "$createdCount created"
+
+        // Total tasks due (not done and has a due date in the future)
+        val dueCount = tasks.count { 
+            it.endDate != null &&
+            it.endDate!!.toDate().after(Date()) &&
+            it.state != "DONE"
+        }
+        binding.tvDueCount.text = "$dueCount due"
     }
 
-    private fun showCardTask(projectItem: ProjectItem) {
-        // Tìm project gốc từ pos để lấy projectId
-        val project = projectsList?.getOrNull(projectItem.pos)
-        
-        if (project != null) {
-            // Lấy tasks của project này
-            val tasks = tasksByProject[project.id] ?: emptyList()
-            
-            // Tính số task completed (DONE)
-            val completed = tasks.count { it.state == "DONE" }
-            
-            // Tính số task ongoing (TODO + IN_PROGRESS)
-            val ongoing = tasks.count { it.state == "TODO" || it.state == "IN PROGRESS" || it.state == "IN_PROGRESS" }
-            
-            binding.taskCompletedCard.tvNumberCard.text = completed.toString()
-            binding.taskOngoingCard.tvNumberCard.text = ongoing.toString()
+    private fun updateStatusOverview(tasks: List<Task>) {
+        val totalTasks = tasks.size
+        binding.tvTotalItems.text = totalTasks.toString()
 
-            binding.taskCompletedCard.tvNameCard.text = "Completed Tasks"
-            binding.taskOngoingCard.tvNameCard.text = "Ongoing Tasks"
+        val todoCount = tasks.count { it.state == "To do" }
+        val inProgressCount = tasks.count { it.state == "In Progress" }
+        val doneCount = tasks.count { it.state == "DONE" }
+
+        binding.tvTodoListCount.text = todoCount.toString()
+        binding.tvInprogressListCount.text = inProgressCount.toString()
+        binding.tvDoneListCount.text = doneCount.toString()
+
+        if (totalTasks == 0) {
+            binding.progressEmpty.visibility = View.VISIBLE
+            binding.progressTodo.visibility = View.GONE
+            binding.progressInprogress.visibility = View.GONE
+            binding.progressDone.visibility = View.GONE
         } else {
-            // Fallback: dùng dữ liệu từ ProjectItem
-            val completed = if (projectItem.projectPercent == 100 && projectItem.taskLefts == 0) {
-                // Nếu 100% và không có task left, giả sử có ít nhất 1 task completed
-                1
-            } else if (projectItem.projectPercent > 0) {
-                // Tính ngược lại từ percent và taskLefts
-                val total = projectItem.taskLefts / (1 - projectItem.projectPercent / 100.0)
-                (total - projectItem.taskLefts).toInt()
-            } else {
-                0
-            }
-            
-            binding.taskCompletedCard.tvNumberCard.text = completed.toString()
-            binding.taskOngoingCard.tvNumberCard.text = projectItem.taskLefts.toString()
+            binding.progressEmpty.visibility = View.GONE
 
-            binding.taskCompletedCard.tvNameCard.text = "Completed Tasks"
-            binding.taskOngoingCard.tvNameCard.text = "Ongoing Tasks"
+            var currentProgressAngle = -90f // Start from the top
+            val degreesPerPercent = 3.6f // 360 degrees / 100 percent
+
+            // To Do Progress
+            if (todoCount > 0) {
+                binding.progressTodo.visibility = View.VISIBLE
+                val todoPercent = (todoCount.toFloat() / totalTasks * 100).toInt()
+                binding.progressTodo.progress = todoPercent
+                binding.progressTodo.rotation = currentProgressAngle
+                currentProgressAngle += (todoPercent * degreesPerPercent)
+            } else {
+                binding.progressTodo.visibility = View.GONE
+            }
+
+            // In Progress Progress
+            if (inProgressCount > 0) {
+                binding.progressInprogress.visibility = View.VISIBLE
+                val inProgressPercent = (inProgressCount.toFloat() / totalTasks * 100).toInt()
+                binding.progressInprogress.progress = inProgressPercent
+                binding.progressInprogress.rotation = currentProgressAngle
+                currentProgressAngle += (inProgressPercent * degreesPerPercent)
+            } else {
+                binding.progressInprogress.visibility = View.GONE
+            }
+
+            // Done Progress
+            if (doneCount > 0) {
+                binding.progressDone.visibility = View.VISIBLE
+                val donePercent = (doneCount.toFloat() / totalTasks * 100).toInt()
+                binding.progressDone.progress = donePercent
+                binding.progressDone.rotation = currentProgressAngle
+            } else {
+                binding.progressDone.visibility = View.GONE
+            }
         }
     }
 
