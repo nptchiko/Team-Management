@@ -2,6 +2,7 @@ package com.thehecotnha.myapplication.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.findNavController
@@ -26,7 +27,6 @@ class ProjectAdapter(
 
 
         fun updateUIWith(project: ProjectItem) {
-
             binding.tvTitleProjectCard.text = project.title
             binding.tvTasksLeft.text = project.taskLefts.toString()
             binding.tvDateProjectCard.text = project.dueDate

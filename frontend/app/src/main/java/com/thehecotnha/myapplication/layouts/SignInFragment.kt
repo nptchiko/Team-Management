@@ -191,6 +191,7 @@ class SignInFragment : Fragment() {
                     loadingDialog.dismiss()
                     val intent: Intent = Intent(activity, DashboardActivity::class.java)
                     startActivity(intent)
+                    activity?.finish()
                     Toast.makeText(requireContext(), "Welcome", Toast.LENGTH_SHORT).show()
 
                 }

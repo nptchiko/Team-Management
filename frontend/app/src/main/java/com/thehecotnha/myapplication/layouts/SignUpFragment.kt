@@ -1,6 +1,7 @@
 package com.thehecotnha.myapplication.layouts
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Patterns
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.R
+import com.thehecotnha.myapplication.activities.DashboardActivity
 import com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel
 import com.thehecotnha.myapplication.databinding.FragmentSignUpBinding
 import com.thehecotnha.myapplication.models.Response
@@ -102,6 +104,9 @@ class SignUpFragment : Fragment() {
 
                 }
                 is Response.Success -> {
+                    val intent = Intent(requireContext(), DashboardActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish() // Đóng AuthActivity
                     Toast.makeText(requireContext(), "Sign up success", Toast.LENGTH_SHORT).show()
                 }
                 is Response.Idle -> {}
