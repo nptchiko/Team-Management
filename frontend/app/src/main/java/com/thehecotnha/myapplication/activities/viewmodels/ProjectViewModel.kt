@@ -93,7 +93,13 @@ class ProjectViewModel : ViewModel() {
                                     removeTime(date)
                         }
                     }
-                    .filter { it.assignedTo[0] == userId }
+                    .filter {
+                        if (it.assignedTo.isNotEmpty())
+                            it.assignedTo[0] == userId
+                        else
+                            false
+
+                    }
                     .toList()
                 Log.d("PROJECT_VIEW_MODEL", "Found ${filterResult.size} tasks for the day")
                 _projectTask.postValue(filterResult)

@@ -148,7 +148,7 @@ class HomeFragment : Fragment() {
 
         projViewModel.getAllUserTasks()
 
-        // ✅ getUserData() đã được gọi ở trên, không cần gọi lại
+        viewModel.getUserData()
         // retrieve user's project
         projViewModel.getUserProjects()
 
