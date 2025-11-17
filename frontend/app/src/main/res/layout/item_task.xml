@@ -7,7 +7,6 @@
     android:layout_marginBottom="12dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="0dp"
-    app:strokeColor="@color/salmon_400"
     app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,34 +22,35 @@
             android:fontFamily="@font/poppins_bold"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_more_options"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Making Wireframe" />
 
         <TextView
-            android:id="@+id/tv_task_description"
-            android:layout_width="0dp"
+            android:id="@+id/tv_task_duedate"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/poppins_light"
+            android:text="Due 12 Dec, 2021"
             android:textColor="@color/black"
-            android:textSize="14sp"
-            android:text="Making main flow wireframe which show 3 main features."
-            app:layout_constraintEnd_toStartOf="@+id/iv_more_options"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_task_title" />
 
-        <ImageView
-            android:id="@+id/iv_more_options"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="More options"
-            android:src="@drawable/outline_more_horiz_24"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView"
+            android:layout_width="47dp"
+            android:layout_height="42dp"
+            app:circularflow_angles="90"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.767"
+            app:layout_constraintStart_toEndOf="@+id/tv_task_duedate"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.156" />
+            app:layout_constraintVertical_bias="1.0"
+
+            tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

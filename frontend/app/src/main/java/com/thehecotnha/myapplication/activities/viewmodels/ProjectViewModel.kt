@@ -12,21 +12,20 @@ import com.google.firebase.Timestamp
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
-import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.repository.ProjectRepository
 import com.thehecotnha.myapplication.repository.UserRepository
 import com.thehecotnha.myapplication.models.Response
+import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.utils.removeTime
 import kotlinx.coroutines.launch
 import java.util.Date
-import kotlin.math.log
 
 class ProjectViewModel : ViewModel() {
 
     private val projectRepo = ProjectRepository()
     private val userRepo = UserRepository()
 
-    val _project = MutableLiveData<List<Project>?>()
+    val _allProjects = MutableLiveData<List<Project>?>()
 
     val _projectTask = MutableLiveData<List<Task>?>()
 
@@ -34,12 +33,13 @@ class ProjectViewModel : ViewModel() {
 
     val _allTasks = MutableLiveData<List<Task>>()
 
+    val _teamProject = MutableLiveData<List<User>>()
     fun getUserProjects() {
         val userId = userRepo.currentUser().uid
 
         projectRepo.getUserProjects(userId).addSnapshotListener { value, error ->
             val result = value?.toObjects(Project::class.java)
-            _project.postValue(result)
+            _allProjects.postValue(result)
         }
     }
 
@@ -118,6 +118,7 @@ class ProjectViewModel : ViewModel() {
 
     fun updateTask(task: Task) = viewModelScope.launch {
         task.updatedBy = userRepo.currentUser().uid
+        task.updatedAt = Timestamp.now()
         _taskState.value = Response.Loading
         _taskState.value = projectRepo.updateTask(task)
     }
@@ -146,6 +147,18 @@ class ProjectViewModel : ViewModel() {
             } else {
                 _allTasks.postValue(emptyList())
                 Log.e("PROJECT_VIEW_MODEL", "Error getting all tasks: ${error?.message}")
+            }
+        }
+    }
+
+    fun getTeamFromProject(teamIdList: List<String>) {
+        projectRepo.getTeamFromProject(teamIdList).addSnapshotListener { value, error ->
+            if (value != null) {
+                val teamUsers = value.toObjects(User::class.java)
+                _teamProject.postValue(teamUsers)
+            } else {
+                Log.e("PROJECT_VIEW_MODEL", "Error getting team from project: ${error?.message}")
+                _teamProject.postValue(emptyList())
             }
         }
     }

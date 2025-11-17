@@ -112,7 +112,6 @@ class UserRepository() {
     }
 
 
-
     fun signOut() {
         auth.signOut()
         liveFirebaseUser.postValue(null)

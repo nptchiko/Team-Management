@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.databinding.ActivityAuthBinding
-import com.thehecotnha.myapplication.layouts.SignInFragment
-import com.thehecotnha.myapplication.layouts.SignUpFragment
+import com.thehecotnha.myapplication.activities.ui.auth.SignInFragment
+import com.thehecotnha.myapplication.activities.ui.auth.SignUpFragment
 
 class AuthActivity : AppCompatActivity() {
 
@@ -19,8 +19,6 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
-        // ✅ Bắt buộc phải đăng nhập mỗi lần mở app
-        // Logout user hiện tại (nếu có) để bắt buộc đăng nhập lại
         FirebaseAuth.getInstance().signOut()
         
         // Load SignInFragment mặc định

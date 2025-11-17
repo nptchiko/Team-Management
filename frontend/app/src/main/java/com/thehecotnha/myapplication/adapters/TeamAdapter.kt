@@ -5,11 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.databinding.ItemUserTeamBinding
+import com.thehecotnha.myapplication.models.TeamItem
 
-class TeamAdapter(private val teamMembers: List<String>) :
+class TeamAdapter(private val teamMembers: List<TeamItem>) :
     RecyclerView.Adapter<TeamAdapter.TeamViewHolder>() {
 
-    class TeamViewHolder(val binding: ItemUserTeamBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class TeamViewHolder(val binding: ItemUserTeamBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamViewHolder {
         val binding = ItemUserTeamBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -20,7 +23,7 @@ class TeamAdapter(private val teamMembers: List<String>) :
         val member = teamMembers[position]
         // Here you would typically load a user's profile image.
         // For now, we'll use a placeholder.
-        holder.binding.userName.text = member
+        holder.binding.userName.text = member.name
     }
 
     override fun getItemCount() = teamMembers.size

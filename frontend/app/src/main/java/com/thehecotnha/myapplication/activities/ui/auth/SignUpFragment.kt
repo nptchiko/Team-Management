@@ -1,5 +1,4 @@
-package com.thehecotnha.myapplication.layouts
-
+package com.thehecotnha.myapplication.activities.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,14 +13,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.DashboardActivity
 import com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel
 import com.thehecotnha.myapplication.databinding.FragmentSignUpBinding
 import com.thehecotnha.myapplication.models.Response
+import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.utils.showProgressDialog
-
 
 class SignUpFragment : Fragment() {
 

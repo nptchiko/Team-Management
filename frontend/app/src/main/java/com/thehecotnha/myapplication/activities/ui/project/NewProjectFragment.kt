@@ -16,6 +16,7 @@ import com.thehecotnha.myapplication.activities.ui.adapters.TeamAdapter
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.models.CalendarDate
+import com.thehecotnha.myapplication.models.TeamItem
 import java.util.Date
 
 class NewProjectFragment : Fragment() {
@@ -31,7 +32,7 @@ class NewProjectFragment : Fragment() {
 
     private lateinit var teamAdapter: TeamAdapter
 
-    private val teamMember = mutableListOf<String>()
+    private val teamMember = mutableListOf<TeamItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,14 +108,14 @@ class NewProjectFragment : Fragment() {
                 title,
                 description,
                 Timestamp(calendar.time),
-                teams = teamMember
+                teams = teamMember.map { it.uid }.toMutableList()
             )
             projViewModel.createProject(project)
         }
 
 
         binding.addUser.setOnClickListener {
-            teamMember.add("usernameHolder")
+            teamMember.add(TeamItem("User ${teamMember.size + 1}", "user${teamMember.size}"))
             teamAdapter.notifyItemInserted(teamMember.size-1)
         }
 

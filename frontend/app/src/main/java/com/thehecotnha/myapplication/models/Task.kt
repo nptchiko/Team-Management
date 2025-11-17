@@ -3,6 +3,7 @@ package com.thehecotnha.myapplication.models
 import android.os.Parcelable
 import com.google.firebase.Timestamp
 import kotlinx.parcelize.Parcelize
+import java.sql.Time
 
 
 /**
@@ -21,6 +22,7 @@ data class Task(
     // User id
     var assignedTo: MutableList<String> = mutableListOf(),
     var updatedBy: String = "",
+    var updatedAt: Timestamp? = null,
     var searchTitle: String = "",
    // var availableDays: MutableList<Timestamp> = mutableListOf()
 ) : Parcelable

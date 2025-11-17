@@ -27,3 +27,8 @@ data class ProjectItem(
     val projectPercent: Int,
     val team: Int,
 )
+
+data class TeamItem (
+    val name: String,
+    val uid: String
+)

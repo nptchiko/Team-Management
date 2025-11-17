@@ -17,7 +17,7 @@ class TaskDetailAdapter(
 
         fun updateUIWith(task: Task) {
             b.tvTaskTitle.text = task.title
-            b.tvTaskDescription.text = task.description
+            b.tvTaskDuedate.text = task.description
 
             b.root.setOnClickListener {
                 onItemClicked(task)

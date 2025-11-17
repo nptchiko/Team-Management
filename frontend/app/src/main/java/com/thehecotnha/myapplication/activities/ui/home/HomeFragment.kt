@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
         viewModel.getUserData()
 
         // tracking project data
-        projViewModel._project.observe(viewLifecycleOwner){
+        projViewModel._allProjects.observe(viewLifecycleOwner){
                 var cnt = 0
                 val projectItems = it?.map { project ->
                     val tasks = tasksByProject[project.id] ?: emptyList()
