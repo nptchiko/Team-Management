@@ -8,6 +8,7 @@ import com.google.firebase.firestore.Query
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.Response
+import com.thehecotnha.myapplication.models.User
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 import java.util.UUID
@@ -18,6 +19,8 @@ class ProjectRepository {
 
     private val auth: FirebaseAuth = FirebaseModule.firebaseAuth
     private val projectRef = FirebaseModule.projectCollection
+
+    private val userRef = FirebaseModule.userCollection
 
     val _allProjects by lazy {
         projectRef.orderBy("title")
@@ -108,6 +111,34 @@ class ProjectRepository {
         } catch (e: Exception) {
             Response.Failure(e)
         }
+    }
+
+    /*suspend fun getTeamFromProject(projectId: String): Query {
+            var teamIdList: List<String> = emptyList()
+            var teamList: List<User> = emptyList()
+
+        try {
+            projectRef.document(projectId).get()
+                .addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.e(TAG, "getTeamFromProject: failed", task.exception)
+                        return@addOnCompleteListener
+                    }
+                    val snap = task.result
+                    val project = snap?.toObject(Project::class.java)
+                    teamIdList = project?.teams ?: emptyList()
+                    Log.d(
+                        TAG,
+                        "getTeamFromProject: found ${teamList.size} team members for projectId=$projectId"
+                    )
+                }.await()
+        } catch (e: Exception) {
+            Log.e(TAG, "getTeamFromProject: exception occurred", e)
+        }
+            return userRef.whereIn("uid", teamIdList)
+    }*/
+    fun getTeamFromProject(teamIdList: List<String>): Query {
+        return userRef.whereIn("uid", teamIdList)
     }
 
 // ========== TASK RELATED METHODS CAN BEADDED HERE ==========

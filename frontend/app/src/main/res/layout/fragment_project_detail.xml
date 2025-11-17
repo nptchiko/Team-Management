@@ -52,8 +52,71 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 tools:text="StoryVibe Website" />
+
+            <TextView
+                android:id="@+id/tv_due_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/poppins_light"
+                android:textColor="@color/salmon_400"
+                android:textSize="14sp"
+                tools:text="24 feb 2050" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginBottom="15dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Team"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_proj_team"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_user_team" />
+
+                    <ImageButton
+                        android:id="@+id/add_user"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@color/white"
+                        android:src="@drawable/addcardplus" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Description"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/tv_project_description"
@@ -65,68 +128,20 @@
                 android:textSize="14sp"
                 tools:text="This project is a website for writers, readers or literature lovers. Access and sharing of books is simplified." />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_bold"
-                        android:text="Due Date"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tv_due_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/poppins_light"
-                        android:textColor="@color/salmon_400"
-                        android:textSize="14sp"
-                        tools:text="24 feb 2050" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_bold"
-                        android:text="Team"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_team_members"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:orientation="horizontal"
-                        tools:ignore="UseCompoundDrawables">
-                        <!-- Team members will be added programmatically -->
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+                android:fontFamily="@font/poppins_medium"
+                android:text="Board"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="14dp"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -137,9 +152,9 @@
                     <!-- To-Do Column -->
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="379dp"
                         android:layout_height="match_parent"
-
+                        android:background="@color/grey_150"
                         android:orientation="vertical">
 
                         <TextView
@@ -147,66 +162,76 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="16dp"
                             android:fontFamily="@font/poppins"
+                            android:text="TO DO"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:text="@string/state_todo" />
+                            android:textSize="14sp" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_todo_tasks"
-                            android:layout_width="340dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="347dp"
+                            android:layout_height="217dp"
+                            android:layout_gravity="center"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="2"
                             tools:listitem="@layout/item_task" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="379dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="20dp"
+                        android:background="@color/grey_150"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/tv_column_progress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="16dp"
                             android:layout_marginBottom="8dp"
                             android:fontFamily="@font/poppins"
+                            android:text="@string/state_progress"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:text="@string/state_progress" />
+                            android:textSize="16sp" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_progress_tasks"
-                            android:layout_width="360dp"
-                            android:layout_height="wrap_content"
-
+                            android:layout_width="347dp"
+                            android:layout_height="217dp"
+                            android:layout_gravity="center"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="2"
                             tools:listitem="@layout/item_task" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="379dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="20dp"
+                        android:background="@color/grey_150"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/tv_column_done"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="16dp"
                             android:layout_marginBottom="8dp"
                             android:fontFamily="@font/poppins"
+                            android:text="@string/state_completed"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:text="@string/state_completed" />
+                            android:textSize="16sp" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_done_tasks"
-                            android:layout_width="380dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="347dp"
+                            android:layout_height="217dp"
+                            android:layout_gravity="center"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="2"
                             tools:listitem="@layout/item_task" />

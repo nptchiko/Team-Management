@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,306 +9,424 @@
     tools:context=".activities.ui.dashboard.DashboardFragment"
     android:paddingBottom="30dp">
 
-    <LinearLayout
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Summary Cards Grid -->
-        <GridLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_project_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:useDefaultMargins="true">
-
-            <!-- Card: Done -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_check"
-                      />
-                    <TextView
-                        android:id="@+id/tv_done_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="0 done"
-                        android:textAppearance="?attr/textAppearanceHeadline6"
-                        android:textColor="@android:color/black" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="in the last 7 days"
-                        android:textColor="@android:color/darker_gray"
-                        android:textAppearance="?attr/textAppearanceCaption" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Card: Updated -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_due"
-                        app:tint="@color/blue_700" />
-                    <TextView
-                        android:id="@+id/tv_due_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="0 due"
-                        android:textAppearance="?attr/textAppearanceHeadline6"
-                        android:textColor="@android:color/black" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="in the last 7 days"
-                        android:textColor="@android:color/darker_gray"
-                        android:textAppearance="?attr/textAppearanceCaption" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Card: Created -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_columnSpan="2"
-                android:layout_columnWeight="1"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_add"
-                         />
-                    <TextView
-                        android:id="@+id/tv_created_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="0 created"
-                        android:textAppearance="?attr/textAppearanceHeadline6"
-                        android:textColor="@android:color/black" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="in the last 7 days"
-                        android:textColor="@android:color/darker_gray"
-                        android:textAppearance="?attr/textAppearanceCaption" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-        </GridLayout>
-
-        <!-- Status Overview Card -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/salmon_300"
+            app:navigationIcon="@drawable/arrow_left_24">
 
             <LinearLayout
+                android:id="@+id/ll_project_selector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_project_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Project name"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_drop_down"
+                    app:tint="@color/white" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_100"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Summary Cards Grid -->
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:columnCount="2"
+                android:useDefaultMargins="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- Card: Done -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Status overview"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="@android:color/black" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="in the last 14 days"
-                    android:textColor="@android:color/darker_gray"
-                    android:textAppearance="?attr/textAppearanceBody2" />
-
-                <!-- Chart Placeholder -->
-                <FrameLayout
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp">
-
-                    <ProgressBar
-                        android:id="@+id/progress_empty"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="100"
-                        android:progressDrawable="@drawable/circle_progress_bar_grey"
-                        android:rotation="-90" />
-
-                    <ProgressBar
-                        android:id="@+id/progress_todo"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="0"
-                        android:progressDrawable="@drawable/circle_progress_bar_blue"
-                        android:rotation="-90"
-                        android:visibility="gone"/>
-
-                    <ProgressBar
-                        android:id="@+id/progress_inprogress"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="0"
-                        android:progressDrawable="@drawable/circle_progress_bar_purple"
-                        android:rotation="-90"
-                        android:visibility="gone"/>
-                    
-                    <ProgressBar
-                        android:id="@+id/progress_done"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="0"
-                        android:progressDrawable="@drawable/circle_progress_bar_green"
-                        android:rotation="-90"
-                        android:visibility="gone"/>
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/white"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_add" />
+
                         <TextView
-                            android:id="@+id/tv_total_items"
+                            android:id="@+id/tv_created_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@android:color/black"
-                            android:textAppearance="?attr/textAppearanceHeadline4" />
+                            android:layout_marginTop="12dp"
+                            android:text="0 created"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textColor="@color/purple_400" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Total work items"
+                            android:text="in the last 7 days"
+                            android:textAppearance="?attr/textAppearanceCaption"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/white"
+                    app:cardElevation="2dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_check"
+                            />
+                        <TextView
+                            android:id="@+id/tv_done_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="0 done"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textColor="#00FD0A" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="in the last 7 days"
                             android:textColor="@android:color/darker_gray"
                             android:textAppearance="?attr/textAppearanceCaption" />
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                </FrameLayout>
+                <!-- Card: Updated -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/white"
+                    app:cardElevation="2dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_due"
+                            app:tint="@color/blue_700" />
+                        <TextView
+                            android:id="@+id/tv_due_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="0 due"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textColor="@color/red" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="in the last 7 days"
+                            android:textColor="@android:color/darker_gray"
+                            android:textAppearance="?attr/textAppearanceCaption" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                <!-- Status List Placeholder -->
+                <!-- Card: Created -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/white"
+                    app:cardElevation="2dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/outline_edit_24" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_updated_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="0"
+                                android:textAppearance="?attr/textAppearanceHeadline6"
+                                android:textColor="@color/orange" />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:layout_weight="1"
+                                android:text=" updated"
+                                android:textAppearance="?attr/textAppearanceHeadline6"
+                                android:textColor="@color/orange" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="in the last 7 days"
+                            android:textColor="@android:color/darker_gray"
+                            android:textAppearance="?attr/textAppearanceCaption" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+
+            </GridLayout>
+
+            <!-- Status Overview Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/white"
+                app:cardElevation="2dp">
+
                 <LinearLayout
-                    android:id="@+id/status_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="16dp"
-                    tools:ignore="HardcodedText">
+                    android:padding="16dp">
 
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="8dp">
-                        <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/shape_circle" android:backgroundTint="#40B7D5"/>
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="To do" android:textColor="@android:color/black" android:layout_marginStart="12dp"/>
-                        <TextView android:id="@+id/tv_todo_list_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@android:color/black"/>
-                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status overview"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textColor="@android:color/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="in the last 14 days"
+                        android:textColor="@android:color/darker_gray"
+                        android:textAppearance="?attr/textAppearanceBody2" />
 
-                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="8dp">
-                        <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/shape_circle" android:backgroundTint="#807DFF"/>
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="In Progress" android:textColor="@android:color/black" android:layout_marginStart="12dp"/>
-                        <TextView android:id="@+id/tv_inprogress_list_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@android:color/black"/>
-                    </LinearLayout>
+                    <!-- Chart Placeholder -->
+                    <FrameLayout
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16dp">
 
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="8dp">
-                        <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/shape_circle" android:backgroundTint="#585858"/>
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Done" android:textColor="@android:color/black" android:layout_marginStart="12dp"/>
-                        <TextView android:id="@+id/tv_done_list_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@android:color/black"/>
+                        <ProgressBar
+                            android:id="@+id/progress_empty"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="100"
+                            android:progressDrawable="@drawable/circle_progress_bar_grey"
+                            android:rotation="-90" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_todo"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="0"
+                            android:progressDrawable="@drawable/circle_progress_bar_blue"
+                            android:rotation="-90"
+                            android:visibility="gone"/>
+
+                        <ProgressBar
+                            android:id="@+id/progress_inprogress"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="0"
+                            android:progressDrawable="@drawable/circle_progress_bar_purple"
+                            android:rotation="-90"
+                            android:visibility="gone"/>
+
+                        <ProgressBar
+                            android:id="@+id/progress_done"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="0"
+                            android:progressDrawable="@drawable/circle_progress_bar_green"
+                            android:rotation="-90"
+                            android:visibility="gone"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/tv_total_items"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@android:color/black"
+                                android:textAppearance="?attr/textAppearanceHeadline4" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total work items"
+                                android:textColor="@android:color/darker_gray"
+                                android:textAppearance="?attr/textAppearanceCaption" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <!-- Status List Placeholder -->
+                    <LinearLayout
+                        android:id="@+id/status_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="16dp"
+                        tools:ignore="HardcodedText">
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="8dp">
+                            <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/shape_circle" android:backgroundTint="#40B7D5"/>
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="To do" android:textColor="@android:color/black" android:layout_marginStart="12dp"/>
+                            <TextView android:id="@+id/tv_todo_list_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@android:color/black"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="8dp">
+                            <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/shape_circle" android:backgroundTint="#807DFF"/>
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="In Progress" android:textColor="@android:color/black" android:layout_marginStart="12dp"/>
+                            <TextView android:id="@+id/tv_inprogress_list_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@android:color/black"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="8dp">
+                            <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/shape_circle" android:backgroundTint="#585858"/>
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Done" android:textColor="@android:color/black" android:layout_marginStart="12dp"/>
+                            <TextView android:id="@+id/tv_done_list_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@android:color/black"/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-<!--        <com.google.android.material.card.MaterialCardView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            app:cardBackgroundColor="@android:color/white"-->
-<!--            app:cardCornerRadius="12dp"-->
-<!--            app:cardElevation="2dp">-->
+            </com.google.android.material.card.MaterialCardView>
+            <!--        <com.google.android.material.card.MaterialCardView-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="24dp"-->
+            <!--            app:cardBackgroundColor="@android:color/white"-->
+            <!--            app:cardCornerRadius="12dp"-->
+            <!--            app:cardElevation="2dp">-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="16dp">-->
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:padding="16dp">-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Upcoming Tasks"-->
-<!--                    android:textAppearance="?attr/textAppearanceHeadline6"-->
-<!--                    android:textColor="@android:color/black" />-->
+            <!--                <TextView-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="Upcoming Tasks"-->
+            <!--                    android:textAppearance="?attr/textAppearanceHeadline6"-->
+            <!--                    android:textColor="@android:color/black" />-->
 
-<!--                &lt;!&ndash; RecyclerView for upcoming tasks &ndash;&gt;-->
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/rv_upcoming_tasks"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="16dp"-->
-<!--                    android:nestedScrollingEnabled="false"-->
-<!--                    tools:itemCount="3"-->
-<!--                    tools:listitem="@layout/item_upcoming_task" />-->
+            <!--                &lt;!&ndash; RecyclerView for upcoming tasks &ndash;&gt;-->
+            <!--                <androidx.recyclerview.widget.RecyclerView-->
+            <!--                    android:id="@+id/rv_upcoming_tasks"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginTop="16dp"-->
+            <!--                    android:nestedScrollingEnabled="false"-->
+            <!--                    tools:itemCount="3"-->
+            <!--                    tools:listitem="@layout/item_upcoming_task" />-->
 
-<!--                &lt;!&ndash; Empty state for upcoming tasks &ndash;&gt;-->
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_no_upcoming_tasks"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="16dp"-->
-<!--                    android:layout_gravity="center_horizontal"-->
-<!--                    android:text="No upcoming tasks for now!"-->
-<!--                    android:textColor="@android:color/darker_gray"-->
-<!--                    android:textAppearance="?attr/textAppearanceBody2"-->
-<!--                    android:visibility="gone" />-->
+            <!--                &lt;!&ndash; Empty state for upcoming tasks &ndash;&gt;-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/tv_no_upcoming_tasks"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginTop="16dp"-->
+            <!--                    android:layout_gravity="center_horizontal"-->
+            <!--                    android:text="No upcoming tasks for now!"-->
+            <!--                    android:textColor="@android:color/darker_gray"-->
+            <!--                    android:textAppearance="?attr/textAppearanceBody2"-->
+            <!--                    android:visibility="gone" />-->
 
-<!--            </LinearLayout>-->
-<!--        </com.google.android.material.card.MaterialCardView>-->
-    </LinearLayout>
-</ScrollView>
+            <!--            </LinearLayout>-->
+            <!--        </com.google.android.material.card.MaterialCardView>-->
+        </LinearLayout>
+
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

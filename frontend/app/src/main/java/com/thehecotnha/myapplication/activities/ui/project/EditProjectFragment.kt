@@ -23,6 +23,7 @@ import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.databinding.FragmentEditProjectBinding
 import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.Response
+import com.thehecotnha.myapplication.models.TeamItem
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
@@ -45,7 +46,7 @@ class EditProjectFragment : Fragment() {
 
     private var projectInfo : Project? = null
 
-    private val teamMember = mutableListOf<String>()
+    private var teamMember = mutableListOf<TeamItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,9 +66,9 @@ class EditProjectFragment : Fragment() {
                 .setTitleText("Select date")
                 .build()
 
+        //b.rvTeam.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
 
         // Set adapter for team members RecyclerView
-        teamAdapter = TeamAdapter(projectInfo?.teams!!.toList())
         b.edtProjectTitle.setText(projectInfo?.title)
         b.edtProjectDescription.setText(projectInfo?.description)
         b.tvDueDate.setText(CalendarDate(projectInfo?.dueDate!!.toDate()).calendar)
@@ -83,6 +84,16 @@ class EditProjectFragment : Fragment() {
         b.btnCancel.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+
+        projViewModel._teamProject.observe(viewLifecycleOwner) { teamList ->
+            if (teamList != null) {
+                teamMember.clear()
+                teamMember.addAll(teamList.map { it -> TeamItem( it.username, it.uid) })
+                b.rvTeam.adapter = TeamAdapter(teamMember)
+            }
+        }
+        projViewModel.getTeamFromProject(projectInfo!!.teams)
+
 
         b.btnSaveProject.setOnClickListener {
             val title = b.edtProjectTitle.text.toString().ifEmpty {

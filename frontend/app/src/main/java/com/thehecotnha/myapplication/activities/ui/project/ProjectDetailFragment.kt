@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.DashboardActivity
+import com.thehecotnha.myapplication.activities.ui.adapters.TeamAdapter
 import com.thehecotnha.myapplication.activities.ui.tasks.NewTaskFragment
 import com.thehecotnha.myapplication.activities.ui.tasks.TaskDetailFragment
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
@@ -22,6 +23,7 @@ import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.Response
+import com.thehecotnha.myapplication.models.TeamItem
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
@@ -40,6 +42,7 @@ class ProjectDetailFragment : Fragment() {
     private var inProgressAdapter: TaskDetailAdapter = TaskDetailAdapter(mutableListOf()) {  }
     private var doneAdapter: TaskDetailAdapter = TaskDetailAdapter(mutableListOf()) {}
 
+    private var teamMember: MutableList<TeamItem> = mutableListOf()
     private val viewModel by lazy {
         ViewModelProvider(this).get(ProjectViewModel::class.java)
     }
@@ -92,6 +95,15 @@ class ProjectDetailFragment : Fragment() {
         }
         viewModel.getTasksByFilter(requireContext(), project?.id!!, "all")
 
+
+        viewModel._teamProject.observe(viewLifecycleOwner) { teamList ->
+            if (teamList != null) {
+                teamMember.clear()
+                teamMember.addAll(teamList.map { it -> TeamItem( it.username, it.uid) })
+                b.rvProjTeam.adapter = TeamAdapter(teamMember)
+            }
+        }
+        viewModel.getTeamFromProject(project!!.teams)
 
 
         // Handle toolbar navigation (back) icon click

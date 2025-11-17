@@ -83,9 +83,9 @@ class NewTaskFragment : Fragment() {
 
         b.stateTextView.setAdapter(stateAdapter)
 
-        teamAdapter = TeamAdapter(teamMember)
-
-        b.rvTeam.adapter = teamAdapter
+//        teamAdapter = TeamAdapter(teamMember)
+//
+//        b.rvTeam.adapter = teamAdapter
         b.tvTasksProjectName.text = project!!.title
 
 

@@ -6,16 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.databinding.FragmentDashboardBinding
 import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
+import com.thehecotnha.myapplication.models.Project
 import java.util.Date
 
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
+
+    private var projectNameList = Array<String>(0) {""}
+    private var projectsByTitle: Map<String, Project> = emptyMap()
 
     private val projectViewModel by lazy {
         ViewModelProvider(this).get(ProjectViewModel::class.java)
@@ -34,26 +39,77 @@ class DashboardFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbarProjectDetail.setNavigationOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+        binding.llProjectSelector.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("YOUR PROJECTS:")
+                .setItems(projectNameList) { dialog, which ->
+                    val selectedProjectTitle = projectNameList[which]
+                    binding.tvProjectName.text = selectedProjectTitle
+
+                    val proj = projectsByTitle[selectedProjectTitle]
+
+                    projectViewModel._projectTask.observe(viewLifecycleOwner) { tasks ->
+                        if (tasks != null) {
+                            updateSummaryCards(tasks)
+                            updateStatusOverview(tasks)
+                        }
+                    }
+
+                    projectViewModel.getTasksByFilter(
+                        requireContext(), proj?.id ?: return@setItems, "all"
+                    )
+                }
+                .show()
+        }
+
+        binding.toolbarProjectDetail.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_edit_project -> {
+                    // TODO: Handle edit project action
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
     private fun observeData() {
-        projectViewModel._allTasks.observe(viewLifecycleOwner) { tasks ->
-            if (tasks != null) {
-                updateSummaryCards(tasks)
-                updateStatusOverview(tasks)
+        projectViewModel._allProjects.observe(viewLifecycleOwner) { projects ->
+            if (projects != null) {
+                projectsByTitle = projects.associateBy { it.title }
+                projectNameList = ArrayList(projectsByTitle.keys).toTypedArray()
+                binding.tvProjectName.text = if (projectNameList.isNotEmpty()) projectNameList[0] else "No Projects"
             }
         }
     }
 
     private fun loadData() {
-        projectViewModel.getAllUserTasks()
+        projectViewModel.getUserProjects()
     }
 
     private fun updateSummaryCards(tasks: List<Task>) {
         // Total tasks done
+
+        val sevenDaysAgo = Date(System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000)
+
         val doneCount = tasks.count { it.state == "DONE" }
         binding.tvDoneCount.text = "$doneCount done"
 
         // Set updated count to 0 as updatedAt is not available
-//        binding.tvUpdatedCount.text = "0 updated"
+        val updatedCount = tasks.count {
+            it.updatedAt != null && it.updatedAt!!.toDate().after(sevenDaysAgo)
+        }
+        binding.tvUpdatedCount.text = "$updatedCount"
 
         // Total tasks created (which is all of them)
         val createdCount = tasks.size
@@ -72,9 +128,9 @@ class DashboardFragment : Fragment() {
         val totalTasks = tasks.size
         binding.tvTotalItems.text = totalTasks.toString()
 
-        val todoCount = tasks.count { it.state == "To do" }
-        val inProgressCount = tasks.count { it.state == "In Progress" }
-        val doneCount = tasks.count { it.state == "DONE" }
+        val todoCount = tasks.count { it.state == getString(R.string.state_todo) }
+        val inProgressCount = tasks.count { it.state == getString(R.string.state_progress) }
+        val doneCount = tasks.count { it.state == getString(R.string.state_completed)}
 
         binding.tvTodoListCount.text = todoCount.toString()
         binding.tvInprogressListCount.text = inProgressCount.toString()
