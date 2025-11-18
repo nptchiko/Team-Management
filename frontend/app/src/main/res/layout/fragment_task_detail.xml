@@ -2,7 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
+    tools:context=".activities.ui.tasks.TaskDetailFragment"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
         <!-- Toolbar: Requires a menu file e.g., res/menu/task_detail_menu.xml -->

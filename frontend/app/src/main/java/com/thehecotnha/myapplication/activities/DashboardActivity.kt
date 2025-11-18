@@ -8,15 +8,13 @@ import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.ui.dashboard.DashboardFragment
 import com.thehecotnha.myapplication.activities.ui.home.HomeFragment
 import com.thehecotnha.myapplication.activities.ui.notifications.NotificationsFragment
+import com.thehecotnha.myapplication.activities.ui.other.AdvancedFeatureFragment
 import com.thehecotnha.myapplication.activities.ui.project.EditProjectFragment
 import com.thehecotnha.myapplication.activities.ui.project.NewProjectFragment
 import com.thehecotnha.myapplication.activities.ui.project.ProjectDetailFragment
 import com.thehecotnha.myapplication.activities.ui.tasks.NewTaskFragment
 import com.thehecotnha.myapplication.activities.ui.tasks.TaskDetailFragment
-
 import com.thehecotnha.myapplication.databinding.ActivityDashboardBinding
-import com.thehecotnha.myapplication.utils.toast
-import kotlin.jvm.java
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -53,8 +51,8 @@ class DashboardActivity : AppCompatActivity() {
 
                     true
                 }
-                R.id.navigation_projects -> {
-                    loadFragment(ProjectDetailFragment())
+                R.id.navigation_advanced_feat -> {
+                    loadFragment(AdvancedFeatureFragment.newInstance())
                     true
                 }
                 R.id.navigation_dashboards -> {

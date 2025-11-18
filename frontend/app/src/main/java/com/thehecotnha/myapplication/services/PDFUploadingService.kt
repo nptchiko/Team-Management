@@ -65,6 +65,7 @@ class PDFUploadingService {
                     call: Call<ResponseBody?>,
                     t: Throwable
                 ) {
+                    _pdfContentLiveData.postValue("")
                     Log.e("PDF Uploading Service", "Upload error: ${t.message}")
                 }
             })
