@@ -19,6 +19,7 @@ import com.thehecotnha.myapplication.databinding.FragmentNewTaskBinding
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.Response
+import com.thehecotnha.myapplication.utils.priorityName
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
@@ -61,6 +62,16 @@ class NewTaskFragment : Fragment() {
         )
     }
 
+    val priorityAdapter: ArrayAdapter<String> by lazy {
+        ArrayAdapter(
+            requireContext(),
+            R.layout.item_state,
+            R.id.state_name,
+            listOf(priorityName.HIGH, priorityName.MEDIUM, priorityName.LOW)
+        )
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -82,7 +93,7 @@ class NewTaskFragment : Fragment() {
                 .build()
 
         b.stateTextView.setAdapter(stateAdapter)
-
+        b.tvPriorityTask.setAdapter(priorityAdapter)
 //        teamAdapter = TeamAdapter(teamMember)
 //
 //        b.rvTeam.adapter = teamAdapter
@@ -119,6 +130,11 @@ class NewTaskFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            val priority = b.menuPriority.editText?.text.toString().trim().ifEmpty {
+                Toast.makeText(requireContext(), "Priority is required", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val task = Task(
                 title = title,
                 description = description,
@@ -128,6 +144,7 @@ class NewTaskFragment : Fragment() {
                 projectId = project!!.id!!,
                 projectName = project!!.title,
                 searchTitle = title.lowercase(),
+                priority = priority
             )
 
             val progressDialog = showProgressDialog(requireContext(),"Saving task...")
@@ -163,6 +180,11 @@ class NewTaskFragment : Fragment() {
         b.stateTextView.setOnItemClickListener { parent, _, position, id ->
             val selectedState = parent.getItemAtPosition(position).toString()
             Toast.makeText(requireContext(), "Selected state: ${b.menu.editText?.text.toString()}", Toast.LENGTH_SHORT).show()
+        }
+
+        b.tvPriorityTask.setOnItemClickListener { parent, _, position, id ->
+            val selectedPriority = parent.getItemAtPosition(position).toString()
+            Toast.makeText(requireContext(), "Selected priority: $selectedPriority", Toast.LENGTH_SHORT).show()
         }
 
         b.toolbarNewTask.setNavigationOnClickListener {

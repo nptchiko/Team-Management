@@ -18,6 +18,7 @@ import com.thehecotnha.myapplication.databinding.FragmentTaskDetailBinding
 import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.models.Task
+import com.thehecotnha.myapplication.utils.priorityName
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
@@ -71,6 +72,16 @@ class TaskDetailFragment : Fragment() {
             listOf("TODO", "IN PROGRESS", "DONE")
         ))
 
+        b.priorityTextView.hint = "${taskInfo?.priority}" ?: priorityName.MEDIUM
+        b.priorityTextView.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                R.layout.item_state,
+                R.id.state_name,
+                listOf(priorityName.MEDIUM, priorityName.HIGH, priorityName.LOW)
+            )
+        )
+
         b.edtTaskTitle.setText(taskInfo?.title)
         b.edtTaskDescription.setText(taskInfo?.description)
         b.tvDueDate.text = CalendarDate(taskInfo?.endDate!!.toDate()).calendar
@@ -111,6 +122,7 @@ class TaskDetailFragment : Fragment() {
             val state = b.stateTextView.text.toString().trim().ifEmpty {
                 return@ifEmpty taskInfo!!.state
             }
+
 
             val updatedTask = Task(
                 id = taskInfo!!.id,
