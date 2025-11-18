@@ -7,9 +7,9 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_projects"
-        android:icon="@drawable/ic_rounded_project"
-        android:title="Project" />
+        android:id="@+id/navigation_advanced_feat"
+        android:icon="@drawable/outline_wand_stars_24"
+        android:title="AI" />
 
     <item
         android:id="@+id/navigation_add_new"

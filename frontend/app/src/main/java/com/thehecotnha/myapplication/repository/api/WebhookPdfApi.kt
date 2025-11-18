@@ -11,7 +11,7 @@ import retrofit2.http.Part
 interface WebhookPdfApi {
 
     @Multipart
-    @POST("webhook-test/ai_pdf_summariser")
+    @POST("webhook/ai_pdf_summariser")
     fun uploadPdf(
         @Part pdfFile: MultipartBody.Part,
         @Part("description") description: RequestBody? = null

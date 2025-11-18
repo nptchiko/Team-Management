@@ -2,15 +2,11 @@ package com.thehecotnha.myapplication.activities.ui.tasks
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -20,13 +16,12 @@ import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.databinding.FragmentTaskDetailBinding
 import com.thehecotnha.myapplication.models.CalendarDate
-import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.Response
+import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
 import java.util.Date
-
 
 @Suppress("DEPRECATION")
 class TaskDetailFragment : Fragment() {
