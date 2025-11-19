@@ -14,7 +14,8 @@ data class HomeTaskItem(
     val projName: String,
     val dueDate: Date,
     val assigneeName: String,
-    val idx:Int
+    val idx:Int,
+    val priority: String
 )
 
 data class ProjectItem(

@@ -123,16 +123,18 @@ class TaskDetailFragment : Fragment() {
                 return@ifEmpty taskInfo!!.state
             }
 
+            val priority = b.priorityTextView.text.toString().trim().ifEmpty {
+                return@ifEmpty taskInfo!!.priority
+            }
 
-            val updatedTask = Task(
-                id = taskInfo!!.id,
+
+            val updatedTask = taskInfo!!.copy(
                 title = title,
                 description = description,
                 state = state,
                 startDate = startDate,
                 endDate = endDate,
-                projectId = taskInfo!!.projectId,
-                assignedTo = taskInfo!!.assignedTo
+                priority = priority
             )
 
             val progressDialog = showProgressDialog(requireContext(), "Updating task...")

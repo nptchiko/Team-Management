@@ -19,6 +19,7 @@ import com.thehecotnha.myapplication.databinding.FragmentNewTaskBinding
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.Response
+import com.thehecotnha.myapplication.models.TeamItem
 import com.thehecotnha.myapplication.utils.priorityName
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
@@ -40,7 +41,7 @@ class NewTaskFragment : Fragment() {
     }
 
     private lateinit var teamAdapter: TeamAdapter
-    private val teamMember = mutableListOf<String>()
+    private val teamMember = mutableListOf<TeamItem>()
 
     private  val viewModel by lazy {
         ViewModelProvider(this).get(ProjectViewModel::class.java)
@@ -94,9 +95,9 @@ class NewTaskFragment : Fragment() {
 
         b.stateTextView.setAdapter(stateAdapter)
         b.tvPriorityTask.setAdapter(priorityAdapter)
-//        teamAdapter = TeamAdapter(teamMember)
-//
-//        b.rvTeam.adapter = teamAdapter
+        teamAdapter = TeamAdapter(teamMember)
+
+        b.rvTeam.adapter = teamAdapter
         b.tvTasksProjectName.text = project!!.title
 
 
@@ -140,7 +141,7 @@ class NewTaskFragment : Fragment() {
                 description = description,
                 state = state,
                 endDate = Timestamp(dueDate),
-                assignedTo = teamMember,
+                assignedTo = teamMember.map{ it-> it.uid }.toMutableList(),
                 projectId = project!!.id!!,
                 projectName = project!!.title,
                 searchTitle = title.lowercase(),
@@ -172,7 +173,8 @@ class NewTaskFragment : Fragment() {
         }
 
         b.btAddUser.setOnClickListener {
-            teamMember.add(authViewModel._currentUser!!.uid)
+            val user = authViewModel._currentUser
+            teamMember.add(TeamItem(user?.displayName?: "No name", user?.uid!!))
             Toast.makeText(requireContext(), "Added ${authViewModel._currentUser!!.displayName} to team", Toast.LENGTH_SHORT).show()
             teamAdapter.notifyItemInserted(teamMember.size-1)
         }
