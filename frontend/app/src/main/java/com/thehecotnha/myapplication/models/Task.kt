@@ -2,6 +2,7 @@ package com.thehecotnha.myapplication.models
 
 import android.os.Parcelable
 import com.google.firebase.Timestamp
+import com.thehecotnha.myapplication.utils.priorityName
 import kotlinx.parcelize.Parcelize
 import java.sql.Time
 
@@ -25,4 +26,5 @@ data class Task(
     var updatedAt: Timestamp? = null,
     var searchTitle: String = "",
    // var availableDays: MutableList<Timestamp> = mutableListOf()
+    var priority: String = priorityName.MEDIUM
 ) : Parcelable

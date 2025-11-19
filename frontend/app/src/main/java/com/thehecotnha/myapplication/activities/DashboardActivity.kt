@@ -33,7 +33,8 @@ class DashboardActivity : AppCompatActivity() {
                 currentFragment is ProjectDetailFragment ||
                 currentFragment is NewTaskFragment ||
                 currentFragment is TaskDetailFragment ||
-                currentFragment is EditProjectFragment
+                currentFragment is EditProjectFragment ||
+                currentFragment is AdvancedFeatureFragment
             ) {
                 binding.bottomNavigation.visibility = View.GONE
                 binding.ivAdd.visibility = View.GONE

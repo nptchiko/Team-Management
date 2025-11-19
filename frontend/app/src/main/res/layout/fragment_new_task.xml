@@ -69,12 +69,21 @@
         <!-- Title -->
 
         <TextView
+
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Project"
+            android:textAppearance="@style/TextAppearance.App.Label" />
+        <TextView
             android:id="@+id/tv_tasks_projectName"
             android:layout_width="376dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/poppins"
-            android:gravity="center_horizontal"
+
             android:text="Project Name"
             android:textAppearance="@style/TextAppearance.App.Label"
             android:textSize="25dp" />
@@ -95,7 +104,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
            >
-
             <AutoCompleteTextView
                 android:id="@+id/stateTextView"
                 android:layout_width="match_parent"
@@ -105,6 +113,36 @@
                 android:labelFor="@id/menu"
                 />
         </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Priority"
+            android:textAppearance="@style/TextAppearance.App.Label" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/menu_priority"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <AutoCompleteTextView
+                android:id="@+id/tv_priority_task"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:labelFor="@id/menu_priority"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <TextView
             android:id="@+id/textView5"

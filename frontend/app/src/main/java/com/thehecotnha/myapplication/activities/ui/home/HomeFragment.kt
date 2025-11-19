@@ -125,7 +125,8 @@ class HomeFragment : Fragment() {
                     task.projectName,
                     task.endDate!!.toDate(),
                     task.assignedTo[0],
-                    cnt++
+                    cnt++,
+                    priority = task.priority
                 )
             } ?: emptyList()
 

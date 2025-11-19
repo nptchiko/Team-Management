@@ -113,6 +113,35 @@
                         android:labelFor="@id/menu"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="Priority"
+                    android:textAppearance="@style/TextAppearance.App.Label" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/menu_priority"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/priorityTextView"
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:labelFor="@id/menu"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <!-- Starts and Ends -->
                 <LinearLayout
                     android:layout_width="match_parent"
