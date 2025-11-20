@@ -22,6 +22,8 @@ class ProjectRepository {
 
     private val userRef = FirebaseModule.userCollection
 
+    val projectCollection = projectRef
+
     val _allProjects by lazy {
         projectRef.orderBy("title")
     }
@@ -57,6 +59,10 @@ class ProjectRepository {
 
     fun getUserProjects(userId: String): Query {
         return projectRef.whereArrayContains("teams", userId)
+    }
+
+    fun getProjectById(projectId: String): Query {
+        return projectRef.whereEqualTo("id", projectId)
     }
 
     suspend fun updateProject(project: Project): Response<Void> {

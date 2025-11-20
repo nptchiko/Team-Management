@@ -71,7 +71,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
-
+    implementation("io.noties.markwon:core:4.6.2")
 
 
 
