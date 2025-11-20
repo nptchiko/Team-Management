@@ -100,7 +100,13 @@ class ProjectDetailFragment : Fragment() {
             if (teamList != null) {
                 teamMember.clear()
                 teamMember.addAll(teamList.map { it -> TeamItem( it.username, it.uid) })
-                b.rvProjTeam.adapter = TeamAdapter(teamMember)
+                b.rvProjTeam.adapter = TeamAdapter(teamMember) { teamItem ->
+                    val idx = teamMember.indexOf(teamItem)
+                    if (idx != -1) {
+                        teamMember.removeAt(idx)
+                        b.rvProjTeam.adapter?.notifyItemRemoved(idx)
+                    }
+                }
             }
         }
         viewModel.getTeamFromProject(project!!.teams)

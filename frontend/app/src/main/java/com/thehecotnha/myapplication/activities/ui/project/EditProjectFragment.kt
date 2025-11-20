@@ -77,6 +77,7 @@ class EditProjectFragment : Fragment() {
             datePicker.show(parentFragmentManager, "Change due date for project")
         }
 
+
         datePicker.addOnPositiveButtonClickListener { selection ->
             b.tvDueDate.setText(datePicker.headerText)
         }
@@ -89,7 +90,13 @@ class EditProjectFragment : Fragment() {
             if (teamList != null) {
                 teamMember.clear()
                 teamMember.addAll(teamList.map { it -> TeamItem( it.username, it.uid) })
-                b.rvTeam.adapter = TeamAdapter(teamMember)
+                b.rvTeam.adapter = TeamAdapter(teamMember) { teamItem ->
+                    val position = teamMember.indexOf(teamItem)
+                    if (position != -1) {
+                        teamMember.removeAt(position)
+                        b.rvTeam.adapter?.notifyItemRemoved(position)
+                    }
+                }
             }
         }
         projViewModel.getTeamFromProject(projectInfo!!.teams)

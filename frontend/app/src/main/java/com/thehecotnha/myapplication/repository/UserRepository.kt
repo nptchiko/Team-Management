@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.Query
 
 import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.models.Response
@@ -110,7 +111,12 @@ class UserRepository() {
 
         return response
     }
-
+    fun searchUsers(search: String) : Query {
+        val query = userRef.orderBy("searchname")
+            .startAt(search.trim().lowercase())
+            .endAt(search.trim().lowercase() + "\uf8ff")
+        return query
+    }
 
     fun signOut() {
         auth.signOut()

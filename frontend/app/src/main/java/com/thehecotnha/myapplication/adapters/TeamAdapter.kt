@@ -6,12 +6,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.databinding.ItemUserTeamBinding
 import com.thehecotnha.myapplication.models.TeamItem
+import com.thehecotnha.myapplication.utils.enums.Role
 
-class TeamAdapter(private val teamMembers: List<TeamItem>) :
+class TeamAdapter(
+        private val teamMembers: List<TeamItem>,
+        private val onDeleteClick: (TeamItem) ->Unit
+    ) :
     RecyclerView.Adapter<TeamAdapter.TeamViewHolder>() {
 
     inner class TeamViewHolder(val binding: ItemUserTeamBinding) : RecyclerView.ViewHolder(binding.root) {
-
+       fun bind(member: TeamItem) {
+            binding.userName.text = member.name
+            binding.userRole.text = when(member.role){
+                Role.PROJECT_MEMBER.name -> "Admin"
+                Role.PROJECT_ADMIN.name -> "Member"
+                else -> "Member"
+            }
+            binding.ivDelete.setOnClickListener {
+                onDeleteClick(member)
+            }
+       }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamViewHolder {
@@ -21,9 +35,7 @@ class TeamAdapter(private val teamMembers: List<TeamItem>) :
 
     override fun onBindViewHolder(holder: TeamViewHolder, position: Int) {
         val member = teamMembers[position]
-        // Here you would typically load a user's profile image.
-        // For now, we'll use a placeholder.
-        holder.binding.userName.text = member.name
+        holder.bind(member)
     }
 
     override fun getItemCount() = teamMembers.size

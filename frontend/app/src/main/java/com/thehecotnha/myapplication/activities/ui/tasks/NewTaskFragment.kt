@@ -95,7 +95,13 @@ class NewTaskFragment : Fragment() {
 
         b.stateTextView.setAdapter(stateAdapter)
         b.tvPriorityTask.setAdapter(priorityAdapter)
-        teamAdapter = TeamAdapter(teamMember)
+        teamAdapter = TeamAdapter(teamMember) { teamItem ->
+            val position = teamMember.indexOf(teamItem)
+            if (position != -1) {
+                teamMember.removeAt(position)
+                teamAdapter.notifyItemRemoved(position)
+            }
+        }
 
         b.rvTeam.adapter = teamAdapter
         b.tvTasksProjectName.text = project!!.title

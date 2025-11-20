@@ -1,5 +1,6 @@
 package com.thehecotnha.myapplication.models
 
+import com.thehecotnha.myapplication.utils.enums.Role
 import java.util.Date
 
 
@@ -31,5 +32,6 @@ data class ProjectItem(
 
 data class TeamItem (
     val name: String,
-    val uid: String
+    val uid: String,
+    val role: String = Role.PROJECT_MEMBER.name
 )

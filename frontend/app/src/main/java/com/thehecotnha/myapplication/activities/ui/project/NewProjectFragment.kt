@@ -1,5 +1,6 @@
 package com.thehecotnha.myapplication.activities.ui.project
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.google.firebase.Timestamp
 import com.thehecotnha.myapplication.activities.ui.adapters.TeamAdapter
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
+import com.thehecotnha.myapplication.databinding.DialogAddMemberBinding
 import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.TeamItem
 import java.util.Date
@@ -42,7 +44,13 @@ class NewProjectFragment : Fragment() {
         val root: View = binding.root
 
         // Set adapter for team members RecyclerView
-        teamAdapter = TeamAdapter(teamMember)
+        teamAdapter = TeamAdapter(teamMember) { teamItem ->
+            val index = teamMember.indexOf(teamItem)
+            if (index != -1) {
+                teamMember.removeAt(index)
+                teamAdapter.notifyItemRemoved(index)
+            }
+        }
         binding.rvTeam.adapter = teamAdapter
 
         // handle khi nhan nut calendar
@@ -115,8 +123,49 @@ class NewProjectFragment : Fragment() {
 
 
         binding.addUser.setOnClickListener {
-            teamMember.add(TeamItem("User ${teamMember.size + 1}", "user${teamMember.size}"))
-            teamAdapter.notifyItemInserted(teamMember.size-1)
+            val dialog = Dialog(requireContext())
+            val _binding = DialogAddMemberBinding.inflate(dialog.layoutInflater)
+            dialog.setContentView(_binding.root)
+
+            _binding.rvSuggestedPeople.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
+            _binding.spinnerRole.setAdapter(
+                android.widget.ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    listOf("Member", "Administrator")
+                )
+            )
+            _binding.rvSuggestedPeople.adapter = teamAdapter
+
+            _binding.btnAdd.setOnClickListener {
+                val email = _binding.edtNameEmail.text.toString().trim().ifEmpty {
+                    _binding.edtNameEmail.error = "Email cannot be empty"
+                    return@setOnClickListener
+                }
+                val role = _binding.spinnerRole.text.toString().trim().ifEmpty {
+                    _binding.spinnerRole.error = "Role cannot be empty"
+                    return@setOnClickListener
+                }
+
+                teamMember.add(TeamItem(email, "", role))
+                teamAdapter.notifyItemInserted(teamMember.size - 1)
+            }
+
+
+            _binding.btnCancel.setOnClickListener {
+                _binding.edtNameEmail.setText("")
+            }
+
+            _binding.btnClose.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
+            dialog.window?.setLayout(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT
+            )
+
         }
 
         return root

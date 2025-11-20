@@ -218,4 +218,18 @@ class ProjectRepository {
             query
         }
     }
+// ============= SEARCH METHODS =============
+    fun searchProjects(searchText: String): Query {
+        return projectRef
+            .orderBy("searchTitle")
+            .startAt(searchText.trim().lowercase())
+            .endAt(searchText.trim().lowercase() + '\uf8ff')
+    }
+
+    fun searchTasks(searchText: String): Query {
+        return FirebaseModule.taskCollection
+            .orderBy("searchTitle")
+            .startAt(searchText.trim().lowercase())
+            .endAt(searchText.trim().lowercase() + '\uf8ff')
+    }
 }
