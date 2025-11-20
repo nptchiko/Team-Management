@@ -156,7 +156,7 @@ class TaskDetailFragment : Fragment() {
                 }
             }
             viewModel.updateTask(
-               updatedTask
+               updatedTask, taskInfo!!.assignedTo
             )
         }
 

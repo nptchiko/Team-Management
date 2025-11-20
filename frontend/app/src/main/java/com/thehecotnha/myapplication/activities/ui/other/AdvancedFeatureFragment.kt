@@ -17,6 +17,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import com.thehecotnha.myapplication.databinding.FragmentAdvancedFeatureBinding
 import com.thehecotnha.myapplication.services.PDFUploadingService
+import io.noties.markwon.Markwon
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -181,7 +182,10 @@ class AdvancedFeatureFragment : Fragment() {
         binding.layoutResult.visibility = View.VISIBLE
         binding.layoutError.visibility = View.GONE
 
-        binding.tvSummaryContent.text = summary
+        val markwon = Markwon.create(requireContext())
+        markwon.setMarkdown(binding.tvSummaryContent, summary)
+        //binding.tvSummaryContent.text = summary
+
     }
 
     private fun showError(message: String) {
