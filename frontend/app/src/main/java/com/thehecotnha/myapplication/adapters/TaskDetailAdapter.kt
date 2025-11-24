@@ -3,8 +3,10 @@ package com.thehecotnha.myapplication.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.databinding.ItemTaskBinding
 import com.thehecotnha.myapplication.models.Task
+import com.thehecotnha.myapplication.utils.priorityName
 
 
 class TaskDetailAdapter(
@@ -18,7 +20,14 @@ class TaskDetailAdapter(
         fun updateUIWith(task: Task) {
             b.tvTaskTitle.text = task.title
             b.tvTaskDuedate.text = task.description
-
+            b.priorityIcon.setImageResource(
+                when (task.priority) {
+                    priorityName.HIGH -> R.drawable.chevron_double_up
+                    priorityName.MEDIUM -> R.drawable.equals
+                    priorityName.LOW -> R.drawable.chevron_double_down
+                    else -> R.drawable.equals
+                }
+            )
             b.root.setOnClickListener {
                 onItemClicked(task)
             }

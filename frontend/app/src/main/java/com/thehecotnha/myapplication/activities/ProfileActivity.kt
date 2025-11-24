@@ -1,6 +1,7 @@
 package com.thehecotnha.myapplication.activities
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -42,7 +43,7 @@ class ProfileActivity : AppCompatActivity() {
                     val user = response.data!!
                     binding.usernameTextView.text = user.username
                     binding.emailValueTextView.text = user.email
-                    binding.phoneValueTextView.text = user.phone
+                    binding.phoneValueTextView.text = user.phone ?: "N/A"
                     binding.roleValueTextView.text = user.role.toString()
                     // You can load avatar using an image loading library like Glide or Picasso
 
@@ -81,8 +82,14 @@ class ProfileActivity : AppCompatActivity() {
         // lay info user
         viewModel.getUserData()
 
-        binding.closeProfileButton.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+        binding.logoutButton.setOnClickListener {
+            viewModel.logout()
+            val intent = Intent(this, AuthActivity::class.java)
+            startActivity(intent)
+            finish()
         }
+
+
+
     }
 }

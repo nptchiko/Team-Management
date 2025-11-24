@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.play.core.integrity.v
 import com.google.firebase.Timestamp
 import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.activities.ui.adapters.TeamAdapter
@@ -20,10 +20,12 @@ import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.models.TeamItem
+import com.thehecotnha.myapplication.models.TeamMember
 import com.thehecotnha.myapplication.utils.priorityName
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
+import com.thehecotnha.myapplication.utils.toast
 import java.util.Date
 
 @Suppress("DEPRECATION")
@@ -41,7 +43,9 @@ class NewTaskFragment : Fragment() {
     }
 
     private lateinit var teamAdapter: TeamAdapter
-    private val teamMember = mutableListOf<TeamItem>()
+    private val assignee = mutableListOf<TeamItem>()
+
+    private var teamOfProject: List<TeamMember> = emptyList()
 
     private  val viewModel by lazy {
         ViewModelProvider(this).get(ProjectViewModel::class.java)
@@ -95,7 +99,13 @@ class NewTaskFragment : Fragment() {
 
         b.stateTextView.setAdapter(stateAdapter)
         b.tvPriorityTask.setAdapter(priorityAdapter)
-        teamAdapter = TeamAdapter(teamMember)
+        teamAdapter = TeamAdapter(assignee) { teamItem ->
+            val position = assignee.indexOf(teamItem)
+            if (position != -1) {
+                assignee.removeAt(position)
+                teamAdapter.notifyItemRemoved(position)
+            }
+        }
 
         b.rvTeam.adapter = teamAdapter
         b.tvTasksProjectName.text = project!!.title
@@ -109,6 +119,12 @@ class NewTaskFragment : Fragment() {
             b.tvDueDate.text = datePicker.headerText
         }
 
+        viewModel._teamMember.observe(viewLifecycleOwner) { team ->
+            if (team != null) {
+                teamOfProject = team
+            }
+        }
+        viewModel.getTeamMember(project!!.id!!)
 
         b.btnSaveTask.setOnClickListener {
             val title = b.edtTaskTitle.text.toString().trim().ifEmpty {
@@ -141,7 +157,7 @@ class NewTaskFragment : Fragment() {
                 description = description,
                 state = state,
                 endDate = Timestamp(dueDate),
-                assignedTo = teamMember.map{ it-> it.uid }.toMutableList(),
+                assignedTo = assignee.map{ it-> it.userId }.toMutableList(),
                 projectId = project!!.id!!,
                 projectName = project!!.title,
                 searchTitle = title.lowercase(),
@@ -173,10 +189,32 @@ class NewTaskFragment : Fragment() {
         }
 
         b.btAddUser.setOnClickListener {
-            val user = authViewModel._currentUser
-            teamMember.add(TeamItem(user?.displayName?: "No name", user?.uid!!))
-            Toast.makeText(requireContext(), "Added ${authViewModel._currentUser!!.displayName} to team", Toast.LENGTH_SHORT).show()
-            teamAdapter.notifyItemInserted(teamMember.size-1)
+            if (assignee.size == 1){
+                toast(requireContext(), "Only one assignee is allowed for a task")
+                return@setOnClickListener
+            }
+
+            val names = teamOfProject.map { it.name }.toTypedArray()
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Choose Assignee")
+                .setSingleChoiceItems(names, -1) { dialog, which ->
+                    val selectedMember = teamOfProject[which]
+                    if (assignee.any { it.userId == selectedMember.userId }) {
+                        toast(requireContext(), "Member already assigned")
+                        return@setSingleChoiceItems
+                    }
+                    if (assignee.size >= 1) {
+                        toast(requireContext(), "Only one assignee is allowed for a task")
+                        return@setSingleChoiceItems
+                    }
+                    assignee.add(TeamItem(selectedMember.name, selectedMember.userId, selectedMember.role))
+                    teamAdapter.notifyItemInserted(assignee.size - 1)
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+
+            Toast.makeText(requireContext(), "Assigned to: ${assignee.joinToString { it.name }}", Toast.LENGTH_SHORT).show()
         }
 
         b.stateTextView.setOnItemClickListener { parent, _, position, id ->

@@ -14,7 +14,8 @@
         android:layout_width="95dp"
         android:layout_height="45dp"
         android:background="@drawable/rounded_border_shadow"
-        android:textColor="?android:textColor" />
+        android:textColor="?android:textColor"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,7 +30,8 @@
         android:padding="1dp"
         android:text="Upload PDF"
         android:textColor="?android:textColor"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="160dp"
