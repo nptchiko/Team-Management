@@ -1,14 +1,13 @@
 package com.thehecotnha.myapplication.repository
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.Query
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.Response
-import com.thehecotnha.myapplication.models.User
+import com.thehecotnha.myapplication.models.TeamMember
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 import java.util.UUID
@@ -49,8 +48,8 @@ class ProjectRepository {
                     Log.d(TAG, "createProject: created id=${project.id}")
                 }
                 .await()
-
             Response.Success(project)
+
         } catch (e: Exception) {
             Log.e(TAG, "createProject: failed", e)
             Response.Failure(e)
@@ -81,6 +80,16 @@ class ProjectRepository {
 
     suspend fun deleteProject(projectId: String): Response<Void> {
         return try {
+            projectRef.document(projectId).collection("tasksAffected").get()
+                .addOnSuccessListener { snapshot ->
+                    for (document in snapshot.documents) {
+                        document.reference.delete()
+                            .addOnSuccessListener {
+                                Log.d(TAG, "deleteProject: deleted task id=${document.id} for projectId=$projectId")
+                            }
+                    }
+                }
+                .await()
             projectRef.document(projectId).delete()
                 .addOnSuccessListener { task ->
                     Log.d(TAG, "deleteProject: deleted id=$projectId")
@@ -141,10 +150,15 @@ class ProjectRepository {
         } catch (e: Exception) {
             Log.e(TAG, "getTeamFromProject: exception occurred", e)
         }
-            return userRef.whereIn("uid", teamIdList)
+            return userRef.whereIn("userId", teamIdList)
     }*/
     fun getTeamFromProject(teamIdList: List<String>): Query {
-        return userRef.whereIn("uid", teamIdList)
+        return userRef.whereIn("userId", teamIdList)
+    }
+
+    fun getTeamMembers(projectId: String): Query {
+        return projectRef.document(projectId)
+            .collection("team")
     }
 
 // ========== TASK RELATED METHODS CAN BEADDED HERE ==========
@@ -231,5 +245,66 @@ class ProjectRepository {
             .orderBy("searchTitle")
             .startAt(searchText.trim().lowercase())
             .endAt(searchText.trim().lowercase() + '\uf8ff')
+    }
+
+    // ============ TEAM MANAGEMENT =============
+    suspend fun addTeamMember(projectId: String, member: TeamMember): Response<Void> {
+        return try {
+            member.id = UUID.randomUUID().toString()
+            projectRef
+                .document(projectId)
+                .collection("team")
+                .document(member.id)
+                .set(member)
+                .addOnSuccessListener {
+                    Log.d(TAG, "add member ${member.name} to project")
+                }
+                .await()
+
+            Response.Success(null)
+        } catch (e: Exception) {
+            Log.e(TAG, "saveTask: failed to save task id=${member.name} for projectId=${member.projectId}", e)
+            Response.Failure(e)
+        }
+    }
+
+    suspend fun addTeam(projectId: String, members: List<TeamMember>): Response<Void> {
+        return try {
+            Log.i("PROJECT REPOSITORY", "addTeam: adding ${members.size} members to projectId=$projectId")
+            members.forEach { member ->
+                member.id = UUID.randomUUID().toString()
+                member.projectId = projectId
+                projectRef
+                    .document(projectId)
+                    .collection("team")
+                    .document(member.id)
+                    .set(member)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "add member ${member.name} to project")
+                    }
+                    .await()
+            }
+
+            Response.Success(null)
+        } catch (e: Exception) {
+            Log.e(TAG, "saveTask: failed to save team members for projectId=$projectId", e)
+            Response.Failure(e)
+        }
+    }
+    suspend fun removeTeamMember(teamMember: TeamMember) : Response<Void> {
+        return try {
+            projectRef.document(teamMember.projectId)
+                .collection("team")
+                .document(teamMember.id)
+                .delete()
+                .addOnSuccessListener {
+                    Log.d(TAG, "Remove team member: removed member id=${teamMember.id} from projectId=${teamMember.projectId}")
+                }
+                .await()
+            Response.Success(null)
+        } catch (e: Exception) {
+            Log.e(TAG, "Remove team member: ", e)
+            Response.Failure(e)
+        }
     }
 }

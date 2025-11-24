@@ -15,8 +15,10 @@ import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.repository.ProjectRepository
 import com.thehecotnha.myapplication.repository.UserRepository
 import com.thehecotnha.myapplication.models.Response
+import com.thehecotnha.myapplication.models.TeamMember
 import com.thehecotnha.myapplication.models.User
 import com.thehecotnha.myapplication.repository.NotificationRepository
+import com.thehecotnha.myapplication.utils.enums.TeamRole
 import com.thehecotnha.myapplication.utils.removeTime
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -38,6 +40,12 @@ class ProjectViewModel : ViewModel() {
     val _allTasks = MutableLiveData<List<Task>>()
 
     val _teamProject = MutableLiveData<List<User>>()
+
+    val _teamMember = MutableLiveData<List<TeamMember>>()
+
+    val _assignee = MutableLiveData<TeamMember>()
+
+    val _project = MutableLiveData< Response<Project>>()
     fun getUserProjects() {
         val userId = userRepo.currentUser().uid
 
@@ -93,9 +101,10 @@ class ProjectViewModel : ViewModel() {
     /**
      * Remove user from project and send notification
      */
-    fun removeUserFromProject(projectId: String, userId: String, projectName: String) = viewModelScope.launch {
+    fun removeUserFromProject(project: Project, userId: String) = viewModelScope.launch {
         _taskState.value = Response.Loading
-
+        val projectId = project.id!!
+        val projectName = project.title
         try {
             // Get current user's name
             val currentUserData = userRepo.getUserData()
@@ -104,36 +113,104 @@ class ProjectViewModel : ViewModel() {
             } else {
                 "Someone"
             }
-
+            project.teams.remove(userId)
+            val state = projectRepo.updateProject(project)
+            when (state) {
+                is Response.Success -> Log.i("PROJECT_VIEW_MODEL", "User removed from project successfully")
+                is Response.Failure -> Log.e("PROJECT_VIEW_MODEL", "Failed to remove user from project")
+                else -> {}
+            }
             // Remove user from project
-            val projectRef = projectRepo.projectCollection.document(projectId)
-            projectRef.get().await().let { snapshot ->
-                val project = snapshot.toObject(Project::class.java)
-                if (project != null) {
-                    if (project.teams.contains(userId)) {
-                        project.teams.remove(userId)
-                        projectRef.set(project).await()
-
-                        // Send notification
-                        notificationRepo.notifyUserRemovedFromProject(
-                            userId = userId,
-                            projectName = projectName,
-                            senderName = senderName
-                        )
+            projectRepo.getTeamMembers(projectId).get().await().let { snapshot ->
+                val teamMembers = snapshot.toObjects(TeamMember::class.java)
+                if (teamMembers.isNotEmpty()) {
+                    for (member in teamMembers) {
+                        if (member.userId == userId) {
+                            projectRepo.removeTeamMember(member)
+                            notificationRepo.notifyUserRemovedFromProject(
+                                userId = userId,
+                                projectName = projectName,
+                                senderName = senderName
+                            )
+                            break
+                        }
                     }
                 }
             }
-
             _taskState.value = Response.Success(null)
         } catch (e: Exception) {
             _taskState.value = Response.Failure(e)
         }
     }
 
-    fun createProject(project: Project) = viewModelScope.launch {
-        projectRepo.createProject(project)
+    fun createProject(project: Project, teams: MutableList<TeamMember>) = viewModelScope.launch {
+        _project.value = Response.Loading
+
+        val res = projectRepo.createProject(project)
+        _project.value = res
+        when (res){
+            is Response.Success -> {
+                Log.i("PROJECT_VIEW_MODEL", "Project created successfully")
+                addTeamToProject(res.data!!, project.title, teams)
+            }
+            is Response.Failure -> {
+                Log.e("PROJECT_VIEW_MODEL", "Failed to create project")
+            }
+
+            Response.Idle -> {}
+            Response.Loading -> {}
+        }
     }
 
+    private fun addTeamToProject(project: Project, projectName: String, teams: MutableList<TeamMember>) = viewModelScope.launch {
+        val currentUserData = userRepo.getUserData()
+        val senderName = if (currentUserData is Response.Success) {
+            currentUserData.data?.username ?: "Someone"
+        } else {
+            "Someone"
+        }
+        if (teams.isNotEmpty()) {
+            teams.forEach { member ->
+                val email = member.name
+                Log.i("PROJECT_VIEW_MODEL", "Adding user with email: $email to project")
+                userRepo.getUserByField("email", email).get().await().let { querySnap ->
+                    if (querySnap.documents.isNotEmpty()) {
+                        val user = querySnap.documents[0].toObject(User::class.java)
+                        if (user != null) {
+                            member.userId = user.uid
+                            project.teams.add(user.uid)
+                            notificationRepo.notifyUserAddedToProject(
+                                userId = user.uid,
+                                projectName = projectName,
+                                senderName = senderName
+                            )
+                        }
+                    } else {
+                        teams.remove(member)
+                    }
+                }
+            }
+        }
+        projectRepo.updateProject(project)
+        teams.add(TeamMember("", senderName, userRepo.currentUser().uid, "", TeamRole.ADMIN.name))
+        projectRepo.addTeam(project.id!!, teams)
+    }
+
+
+    fun getAllProjectTasks() {
+        projectRepo._allTasks.addSnapshotListener { value, error ->
+                if (value != null) {
+                    val result = value.toObjects(Task::class.java)
+                    Log.i("PROJECT_VIEW_MODEL", "Fetched ${result.size} tasks")
+                    _allTasks.postValue(result)
+                } else {
+                    _allTasks.postValue(emptyList())
+                    Log.e("PROJECT_VIEW_MODEL", "Error getting tasks: ${error?.message}")
+
+                }
+
+            }
+    }
     fun getTasksByFilter(context: Context,
                          projectId: String,
                          name: String) {
@@ -275,7 +352,7 @@ class ProjectViewModel : ViewModel() {
                 projectRepo.projectCollection.document(task.projectId).get().await().let { projSnap ->
                     val project = projSnap.toObject(Project::class.java)
                     project?.teams?.forEach { memberId ->
-//                        if (memberId != userRepo.currentUser().uid) {
+//                        if (memberId != userRepo.currentUser().userId) {
                             notificationRepo.notifyUserUpdatedTask(
                                 userId = memberId,
                                 taskName = task.title,
@@ -336,5 +413,72 @@ class ProjectViewModel : ViewModel() {
                     _teamProject.postValue(emptyList())
                 }
             }
+        }
+
+        fun getTeamMember(projectId: String) {
+            projectRepo.getTeamMembers(projectId).addSnapshotListener { value, error ->
+                if (value != null) {
+                    val teamMembers = value.toObjects(TeamMember::class.java)
+                    Log.i("PROJECT_VIEW_MODEL", "Fetched ${teamMembers.size} team members for project $projectId")
+                    _teamMember.postValue(teamMembers)
+                } else {
+                    Log.e(
+                        "PROJECT_VIEW_MODEL",
+                        "Error getting team members: ${error?.message}"
+                    )
+                    _teamMember.postValue(emptyList())
+                }
+
+            }
+        }
+        fun getAssignee(task: Task) {
+            var assignee: TeamMember = TeamMember("", "No name", "", task.projectId)
+
+            projectRepo.getTeamMembers(task.projectId).addSnapshotListener { value, error ->
+                if (value != null && task.assignedTo.isNotEmpty()) {
+
+                    Log.i(
+                        "PROJECT_VIEW_MODEL",
+                        "Looking for assignee with ID: ${task.assignedTo[0]}"
+                    )
+
+                    val teamMembers = value.toObjects(TeamMember::class.java)
+
+                    teamMembers.find { it.userId == task.assignedTo[0] }?.let {
+                        _assignee.postValue(it)
+                        Log.i("PROJECT_VIEW_MODEL", "Assignee found: ${it.name}")
+                    } ?: Log.e(
+                        "PROJECT_VIEW_MODEL",
+                        "Assignee with ID ${task.assignedTo[0]} not found in team members"
+                    )
+
+                } else {
+                    _assignee.postValue(assignee)
+                }
+            }
+        }
+        fun getUserRoleInProject(projectId: Project): String {
+            val currentUserId = userRepo.currentUser().uid
+            if (projectId.ownerId == currentUserId) {
+                return TeamRole.ADMIN.name
+            }
+            var result = TeamRole.MEMBER.name
+            projectRepo.getTeamMembers(projectId.id!!).addSnapshotListener { value, error ->
+                if (value != null) {
+                    val teamMembers = value.toObjects(TeamMember::class.java)
+                    for (member in teamMembers) {
+                        if (member.userId == currentUserId) {
+                            result =  member.role
+                            return@addSnapshotListener
+                        }
+                    }
+                } else{
+                    Log.e(
+                        "PROJECT_VIEW_MODEL",
+                        "Error getting user role in project: ${error?.message}"
+                    )
+                }
+            }
+            return result
         }
     }

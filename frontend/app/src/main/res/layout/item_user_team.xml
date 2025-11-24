@@ -24,7 +24,7 @@
         android:text="User Name"
         android:textAppearance="?attr/textAppearanceBody1"
         app:layout_constraintStart_toEndOf="@id/user_avatar"
-        app:layout_constraintTop_toTopOf="@id/user_avatar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/user_role"
@@ -40,11 +40,10 @@
         android:id="@+id/ivDelete"
         android:layout_width="17dp"
         android:layout_height="17dp"
-        android:layout_marginStart="140dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/cross"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/user_avatar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526"
-        android:src="@drawable/cross" />
+        app:layout_constraintStart_toEndOf="@+id/user_name"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,11 +13,14 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import com.thehecotnha.myapplication.R
+import com.thehecotnha.myapplication.activities.ui.adapters.TeamAdapter
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.databinding.FragmentTaskDetailBinding
 import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.models.Task
+import com.thehecotnha.myapplication.models.TeamItem
+import com.thehecotnha.myapplication.models.TeamMember
 import com.thehecotnha.myapplication.utils.priorityName
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
@@ -36,6 +39,8 @@ class TaskDetailFragment : Fragment() {
     private val viewModel by lazy {
         ViewModelProvider(this).get(ProjectViewModel::class.java)
     }
+
+    val assignee =  mutableListOf<TeamItem>()
     private var taskInfo: Task? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,10 +87,31 @@ class TaskDetailFragment : Fragment() {
             )
         )
 
+        // add current assignee to the list
+        viewModel._assignee.observe(viewLifecycleOwner) { currentAssignee: TeamMember ->
+            assignee.clear()
+            assignee.add(TeamItem(currentAssignee.name, currentAssignee.userId, currentAssignee.role))
+
+            b.rvTeam.adapter = TeamAdapter(assignee) { teamItem ->
+                val position = assignee.indexOf(teamItem)
+                if (position != -1) {
+                    assignee.removeAt(position)
+                    (b.rvTeam.adapter as TeamAdapter).notifyItemRemoved(position)
+                }
+
+            }
+
+        }
+        viewModel.getAssignee(taskInfo!!)
+
+
+
         b.edtTaskTitle.setText(taskInfo?.title)
         b.edtTaskDescription.setText(taskInfo?.description)
         b.tvDueDate.text = CalendarDate(taskInfo?.endDate!!.toDate()).calendar
         b.tvStartDate.text = CalendarDate(taskInfo?.startDate!!.toDate()).calendar
+
+
 
         b.ivDueDate.setOnClickListener {
             datePicker.show(parentFragmentManager, "DATE_PICKER")
@@ -112,6 +138,47 @@ class TaskDetailFragment : Fragment() {
             handleToolbarMenuClick(menuItem)
         }
 
+
+       /* viewModel._teamMember.observe(viewLifecycleOwner) { team ->
+            if (team != null) {
+                teamOfProject = team
+            }
+        }
+        viewModel.getTeamMember(project!!.id!!)
+        b.btAddUser.setOnClickListener {
+            val names = teamOfProject.map { it.name }.toTypedArray()
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Choose Assignee")
+                .setSingleChoiceItems(names, -1) { dialog, which ->
+                    val selectedMember = teamOfProject[which]
+                    if (assignee.any { it.userId == selectedMember.userId }) {
+                        toast(requireContext(), "Member already assigned")
+                        return@setSingleChoiceItems
+                    }
+                    if (assignee.size >= 1) {
+                        toast(requireContext(), "Only one assignee is allowed for a task")
+                        return@setSingleChoiceItems
+                    }
+                    assignee.add(
+                        TeamItem(
+                            selectedMember.name,
+                            selectedMember.userId,
+                            selectedMember.role
+                        )
+                    )
+                    teamAdapter.notifyItemInserted(assignee.size - 1)
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+
+            Toast.makeText(
+                requireContext(),
+                "Assigned to: ${assignee.joinToString { it.name }}",
+                Toast.LENGTH_SHORT
+            ).show()
+
+        }*/
         b.btnChanges.setOnClickListener {
             val title = b.edtTaskTitle.text.toString().trim().ifEmpty {
                 return@ifEmpty taskInfo!!.title

@@ -19,7 +19,9 @@ import com.thehecotnha.myapplication.activities.viewmodels.AuthViewModel
 import com.thehecotnha.myapplication.databinding.FragmentSignUpBinding
 import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.models.User
+import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
+import com.thehecotnha.myapplication.utils.showSuccessDialog
 
 class SignUpFragment : Fragment() {
 
@@ -39,6 +41,8 @@ class SignUpFragment : Fragment() {
     ): View? {
 
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
+
+
         return binding.root
     }
 
@@ -48,6 +52,11 @@ class SignUpFragment : Fragment() {
 
         binding.signUpButton.setOnClickListener {
             signUp()
+        }
+
+
+        binding.alreadyHaveAccountButton.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         binding.passwordEditText.setOnTouchListener { v: View?, event: MotionEvent? ->
@@ -96,20 +105,22 @@ class SignUpFragment : Fragment() {
         }
 
         // Update UI to show loading state
+        val progressDialog = showProgressDialog(requireContext(), "Signing Up...")
         viewModel.signUpState.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Failure -> {
-
+                    progressDialog.dismiss()
+                    showAleartDialog(requireContext(), "Sign Up Failed", response.e?.message ?: "An unknown error occurred.")
                 }
                 is Response.Success -> {
-                    val intent = Intent(requireContext(), DashboardActivity::class.java)
+                    progressDialog.dismiss()
+                    showSuccessDialog(requireContext(), "Sign Up Successful", "Welcome, $username!")
+                    val intent = Intent(requireActivity(), DashboardActivity::class.java)
                     startActivity(intent)
-                    activity?.finish() // Đóng AuthActivity
-                    Toast.makeText(requireContext(), "Sign up success", Toast.LENGTH_SHORT).show()
                 }
                 is Response.Idle -> {}
                 is Response.Loading -> {
-                    showProgressDialog(requireContext(), "Loading")
+                    progressDialog.show()
                 }
             }
         }

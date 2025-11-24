@@ -10,16 +10,19 @@ import com.thehecotnha.myapplication.databinding.FragmentNewProjectBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.Timestamp
 import com.thehecotnha.myapplication.activities.ui.adapters.TeamAdapter
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.databinding.DialogAddMemberBinding
-import com.thehecotnha.myapplication.models.CalendarDate
+import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.models.TeamItem
-import java.util.Date
+import com.thehecotnha.myapplication.models.TeamMember
+import com.thehecotnha.myapplication.utils.showAleartDialog
+import com.thehecotnha.myapplication.utils.showSuccessDialog
+import com.thehecotnha.myapplication.utils.toast
+import java.util.UUID
 
 class NewProjectFragment : Fragment() {
 
@@ -116,9 +119,32 @@ class NewProjectFragment : Fragment() {
                 title,
                 description,
                 Timestamp(calendar.time),
-                teams = teamMember.map { it.uid }.toMutableList()
+
             )
-            projViewModel.createProject(project)
+
+            val teams = teamMember.map {
+                it -> TeamMember(
+                    id = UUID.randomUUID().toString(),
+                    userId = "",
+                    name = it.name,
+                    projectId = "",
+                    role = it.role
+                )
+            }
+            projViewModel._project.observe(viewLifecycleOwner) { res ->
+                when (res) {
+                    is Response.Failure -> {
+                        showAleartDialog(requireContext(), "Error",  "Failed to create project.")
+                    }
+                    Response.Idle -> {}
+                    Response.Loading -> {}
+                    is Response.Success -> {
+                        showSuccessDialog(requireContext(), "Success","Project created successfully!")
+
+                    }
+                }
+            }
+            projViewModel.createProject(project, teams.toMutableList())
         }
 
 
@@ -146,7 +172,6 @@ class NewProjectFragment : Fragment() {
                     _binding.spinnerRole.error = "Role cannot be empty"
                     return@setOnClickListener
                 }
-
                 teamMember.add(TeamItem(email, "", role))
                 teamAdapter.notifyItemInserted(teamMember.size - 1)
             }

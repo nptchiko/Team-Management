@@ -3,14 +3,14 @@ package com.thehecotnha.myapplication.activities.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.thehecotnha.myapplication.R
 import com.thehecotnha.myapplication.databinding.ItemUserTeamBinding
 import com.thehecotnha.myapplication.models.TeamItem
-import com.thehecotnha.myapplication.utils.enums.Role
+import com.thehecotnha.myapplication.models.TeamMember
+import com.thehecotnha.myapplication.utils.enums.TeamRole
 
 class TeamAdapter(
-        private val teamMembers: List<TeamItem>,
-        private val onDeleteClick: (TeamItem) ->Unit
+    private val teamMembers: List<TeamItem>,
+    private val onDeleteClick: (TeamItem) ->Unit
     ) :
     RecyclerView.Adapter<TeamAdapter.TeamViewHolder>() {
 
@@ -18,8 +18,9 @@ class TeamAdapter(
        fun bind(member: TeamItem) {
             binding.userName.text = member.name
             binding.userRole.text = when(member.role){
-                Role.PROJECT_MEMBER.name -> "Admin"
-                Role.PROJECT_ADMIN.name -> "Member"
+                TeamRole.MEMBER.name -> "MEMBER"
+                TeamRole.ADMIN.name -> "ADMIN"
+                "Administrator" -> "ADMIN"
                 else -> "Member"
             }
             binding.ivDelete.setOnClickListener {

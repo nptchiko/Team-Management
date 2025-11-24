@@ -12,13 +12,15 @@ import com.thehecotnha.myapplication.databinding.ItemProjectBinding
 import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.ProjectItem
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProjectAdapter(
-    private val items: List<ProjectItem>, private val onItemClicked: (ProjectItem) -> Unit
+    private var items: List<ProjectItem>, private val onItemClicked: (ProjectItem) -> Unit
 ) : RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {
 
-
+    private val originalItems = ArrayList<ProjectItem>(items)
 
     // Kotlin tao ItemProjectBinding tu dong lien ket voi item_project.xml
     // cho phep truy cap truc tiep den cac view (button, textView) trong layout thong qua no
@@ -61,6 +63,23 @@ class ProjectAdapter(
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun filter(query: String?) {
+        items = if (query.isNullOrEmpty()) {
+            originalItems
+        } else {
+            val filteredList = ArrayList<ProjectItem>()
+            val lowerCaseQuery = query.lowercase(Locale.getDefault())
+            for (item in originalItems) {
+                if (item.title.lowercase(Locale.getDefault()).contains(lowerCaseQuery)) {
+                    filteredList.add(item)
+                }
+            }
+            filteredList
+        }
+        notifyDataSetChanged()
     }
 
 }

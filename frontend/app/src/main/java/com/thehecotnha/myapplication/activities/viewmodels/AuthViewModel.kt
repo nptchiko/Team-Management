@@ -28,8 +28,8 @@ class AuthViewModel (): ViewModel() {
     val _currentUser: FirebaseUser?
         get() = repo.currentUser()
     fun signUp(user: User) = viewModelScope.launch {
-        if (_signUpState.value is Response.Idle)
-            _signUpState.value = Response.Loading
+
+        _signUpState.value = Response.Loading
         val result = repo.signUp(user)
         _signUpState.value = result
     }
@@ -46,4 +46,7 @@ class AuthViewModel (): ViewModel() {
         _userState.value = result
     }
 
+    fun logout() {
+        repo.signOut()
+    }
 }

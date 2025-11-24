@@ -74,7 +74,7 @@ class UserRepository() {
 
                         //push user to firebase
                         userRef.document(fbUser.uid).set(user)
-                        Log.d(TAG, "signUp: new user with uid=${user.uid}")
+                        Log.d(TAG, "signUp: new user with userId=${user.uid}")
                     } else {
                         Log.e(TAG, "signUp: failed")
                     }
@@ -86,10 +86,14 @@ class UserRepository() {
         }
     }
 
+    fun getUserByField(field: String, value: String) : Query {
+        val query = userRef.whereEqualTo(field, value)
+        return query
+    }
     /** Get user profile data from Firestore **/
     suspend fun getUserData(): Response<User> {
         val uid: String = currentUser().uid
-        Log.d(TAG, "Get User Profile Data for uid=$uid")
+        Log.d(TAG, "Get User Profile Data for userId=$uid")
 
         var response : Response<User> = Response.Failure(Exception("No user data found"))
 
@@ -104,7 +108,7 @@ class UserRepository() {
                 val result = documentSnapshot.toObject(User::class.java)
 
                 if (result != null) {
-                    Log.d(TAG, "getUserData: successfully got user data for uid=$uid")
+                    Log.d(TAG, "getUserData: successfully got user data for userId=$uid")
                     response = Response.Success(result)
                 }
             }.await()

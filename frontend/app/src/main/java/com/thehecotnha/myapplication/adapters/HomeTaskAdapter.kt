@@ -1,5 +1,6 @@
 package com.example.jiradashboard
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,12 +9,16 @@ import com.thehecotnha.myapplication.databinding.ItemHomeTaskBinding
 import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.HomeTaskItem
 import com.thehecotnha.myapplication.utils.priorityName
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeTaskAdapter(
-    private val items: List<HomeTaskItem>,
+    private var items: List<HomeTaskItem>,
     private val onItemClick: (HomeTaskItem) -> Unit
 ) : RecyclerView.Adapter<HomeTaskAdapter.ViewHolder>() {
+
+    private val originalItems = ArrayList<HomeTaskItem>(items)
 
     inner class ViewHolder(private val binding: ItemHomeTaskBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -46,4 +51,22 @@ class HomeTaskAdapter(
     }
 
     override fun getItemCount() = items.size
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun filter(query: String?) {
+        items = if (query.isNullOrEmpty()) {
+            originalItems
+        } else {
+            val filteredList = ArrayList<HomeTaskItem>()
+            val lowerCaseQuery = query.lowercase(Locale.getDefault())
+            for (item in originalItems) {
+                if (item.title.lowercase(Locale.getDefault()).contains(lowerCaseQuery) ||
+                    item.projName.lowercase(Locale.getDefault()).contains(lowerCaseQuery)) {
+                    filteredList.add(item)
+                }
+            }
+            filteredList
+        }
+        notifyDataSetChanged()
+    }
 }

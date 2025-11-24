@@ -7,16 +7,14 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-
+    <!-- Profile Image -->
     <FrameLayout
         android:id="@+id/frameLayout2"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/rounded_border_shadow"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
 
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,142 +23,123 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/avatar_12"
-
             tools:srcCompat="@drawable/avatar_12" />
-
     </FrameLayout>
 
+    <!-- Username -->
     <TextView
         android:id="@+id/usernameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/inter_semibold"
+        android:fontFamily="@font/poppins_medium"
         android:text="Username"
         android:textColor="@color/black"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
 
+    <!-- Labels for user details -->
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/inter_black"
+        android:text="Email:"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameTextView" />
+
+    <TextView
+        android:id="@+id/phoneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/inter_black"
+        android:text="Phone: "
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
+
+    <TextView
+        android:id="@+id/roleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/inter_black"
+        android:text="Role: "
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/phoneTextView"
+        app:layout_constraintTop_toBottomOf="@+id/phoneTextView" />
+
+    <!-- Barrier to align values after the longest label -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/labelBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="emailTextView,phoneTextView,roleTextView" />
+
+    <!-- Values for user details -->
+    <TextView
+        android:id="@+id/emailValueTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="Email"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/emailTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelBarrier" />
+
+    <TextView
+        android:id="@+id/phoneValueTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="Phone"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/phoneTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelBarrier" />
+
+    <TextView
+        android:id="@+id/roleValueTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="Role"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/roleTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelBarrier" />
+
+    <!-- Close Button -->
     <Button
-        android:id="@+id/closeProfileButton"
+        android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-
         android:backgroundTint="@color/black"
-        android:fontFamily="@font/inter_black"
-        android:text="Close"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Log out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/roleLayout"
-        android:layout_width="233dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="155dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneLayout">
-
-        <TextView
-            android:id="@+id/roleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_black"
-            android:text="Role: "
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/roleValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/inter_thin"
-            android:text="Role"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/phoneLayout"
-        android:layout_width="308dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="286dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLayout">
-
-        <TextView
-            android:id="@+id/phoneTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/inter_black"
-            android:text="Phone: "
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/phoneValueTextView"
-            android:layout_width="93dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/inter_thin"
-            android:text="Phone"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/emailLayout"
-        android:layout_width="307dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="102dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameTextView">
-
-        <TextView
-            android:id="@+id/emailTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_black"
-            android:text="Email:"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/emailValueTextView"
-            android:layout_width="93dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/inter_thin"
-            android:text="Email"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

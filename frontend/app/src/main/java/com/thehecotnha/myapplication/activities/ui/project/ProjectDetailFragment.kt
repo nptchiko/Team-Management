@@ -1,6 +1,6 @@
 package com.thehecotnha.myapplication.activities.ui.project
 
-import androidx.fragment.app.viewModels
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,15 +18,19 @@ import com.thehecotnha.myapplication.activities.ui.tasks.NewTaskFragment
 import com.thehecotnha.myapplication.activities.ui.tasks.TaskDetailFragment
 import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.adapters.TaskDetailAdapter
+import com.thehecotnha.myapplication.databinding.DialogAddMemberBinding
 import com.thehecotnha.myapplication.databinding.FragmentProjectDetailBinding
 import com.thehecotnha.myapplication.models.CalendarDate
 import com.thehecotnha.myapplication.models.Project
 import com.thehecotnha.myapplication.models.Task
 import com.thehecotnha.myapplication.models.Response
 import com.thehecotnha.myapplication.models.TeamItem
+import com.thehecotnha.myapplication.models.TeamMember
+import com.thehecotnha.myapplication.utils.enums.TeamRole
 import com.thehecotnha.myapplication.utils.showAleartDialog
 import com.thehecotnha.myapplication.utils.showProgressDialog
 import com.thehecotnha.myapplication.utils.showSuccessDialog
+import com.thehecotnha.myapplication.utils.toast
 
 
 @Suppress("DEPRECATION")
@@ -96,21 +100,18 @@ class ProjectDetailFragment : Fragment() {
         viewModel.getTasksByFilter(requireContext(), project?.id!!, "all")
 
 
-        viewModel._teamProject.observe(viewLifecycleOwner) { teamList ->
+        viewModel._teamMember.observe(viewLifecycleOwner) { teamList ->
             if (teamList != null) {
                 teamMember.clear()
-                teamMember.addAll(teamList.map { it -> TeamItem( it.username, it.uid) })
-                b.rvProjTeam.adapter = TeamAdapter(teamMember) { teamItem ->
-                    val idx = teamMember.indexOf(teamItem)
-                    if (idx != -1) {
-                        teamMember.removeAt(idx)
-                        b.rvProjTeam.adapter?.notifyItemRemoved(idx)
-                    }
+                teamMember.addAll(teamList.map { it -> TeamItem(it.name, it.userId, it.role ) })
+
+                b.rvProjTeam.adapter = TeamAdapter(teamMember) { teamItem -> {}
+
                 }
             }
         }
-        viewModel.getTeamFromProject(project!!.teams)
 
+        viewModel.getTeamMember(project!!.id!!)
 
         // Handle toolbar navigation (back) icon click
         b.toolbarProjectDetail.setNavigationOnClickListener {
@@ -127,7 +128,6 @@ class ProjectDetailFragment : Fragment() {
         b.toolbarProjectDetail.setOnMenuItemClickListener {
             handleToolbarMenuClick(it)
         }
-
 
 
         return root

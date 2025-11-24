@@ -18,6 +18,7 @@ import com.google.firebase.Timestamp
 import com.thehecotnha.myapplication.activities.DashboardActivity
 import com.thehecotnha.myapplication.activities.ProfileActivity
 import com.thehecotnha.myapplication.activities.ui.project.ProjectDetailFragment
+import com.thehecotnha.myapplication.activities.ui.search.SearchFragment
 import com.thehecotnha.myapplication.activities.ui.tasks.TaskDetailFragment
 import com.thehecotnha.myapplication.adapters.ProjectAdapter
 import com.thehecotnha.myapplication.databinding.FragmentHomeBinding
@@ -32,6 +33,8 @@ import com.thehecotnha.myapplication.activities.viewmodels.ProjectViewModel
 import com.thehecotnha.myapplication.models.HomeTaskItem
 import com.thehecotnha.myapplication.utils.removeTime
 import com.thehecotnha.myapplication.models.Task
+import com.thehecotnha.myapplication.models.TeamItem
+import com.thehecotnha.myapplication.models.TeamMember
 
 class HomeFragment : Fragment() {
 
@@ -46,6 +49,8 @@ class HomeFragment : Fragment() {
     }
     private var userInfo: User = User()
     private var tasksByProject: Map<String, List<Task>> = emptyMap()
+
+    private var teamMember = mutableListOf<TeamMember>()
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreateView(
@@ -62,6 +67,34 @@ class HomeFragment : Fragment() {
         binding.rvTodayTasks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvIncoming.layoutManager = LinearLayoutManager(requireContext())
 
+        setupObservers(viewModel)
+
+        // ✅ Gọi getUserData() ngay sau khi đăng ký observer
+        viewModel.getUserData()
+
+        projViewModel.getAllProjectTasks()
+
+        // retrieve user's project
+        projViewModel.getUserProjects()
+
+        projViewModel.getTaskForDay(Timestamp.now().toDate(), true)
+
+        // Nhap vao profile image de den trang profile
+        binding.profileImage.setOnClickListener {
+            val intent = Intent(requireContext(), ProfileActivity::class.java)
+            intent.putExtra("userInfo", userInfo)
+            startActivity(intent)
+        }
+
+        binding.searchCardView.setOnClickListener {
+            (activity as? DashboardActivity)?.loadFragment(SearchFragment())
+        }
+
+        return root
+    }
+
+
+    private fun setupObservers(viewModel: AuthViewModel) {
         // ✅ Đăng ký observer TRƯỚC khi gọi getUserData()
         // retrieve user data
         // tracking user data
@@ -82,9 +115,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        
-        // ✅ Gọi getUserData() ngay sau khi đăng ký observer
-        viewModel.getUserData()
 
         // tracking project data
         projViewModel._allProjects.observe(viewLifecycleOwner){
@@ -95,6 +125,7 @@ class HomeFragment : Fragment() {
                     val done = tasks.count { it.state == "DONE" }
                     val tasksLeft = total - done
                     val percent = if (total > 0) (done * 100) / total else 0
+
                     ProjectItem(
                         project.title,
                         cnt++,
@@ -117,9 +148,9 @@ class HomeFragment : Fragment() {
             tasksByProject = tasks.groupBy { it.projectId }
         }
 
-        projViewModel._projectTask.observe(viewLifecycleOwner){
+        projViewModel._projectTask.observe(viewLifecycleOwner){ tasks ->
             var cnt = 0
-            val todayTaskItems = it?.map { task ->
+            val todayTaskItems = tasks?.map { task ->
                 HomeTaskItem(
                     task.title,
                     task.projectName,
@@ -130,39 +161,21 @@ class HomeFragment : Fragment() {
                 )
             } ?: emptyList()
 
-            binding.rvTodayTasks.adapter = HomeTaskAdapter(todayTaskItems.filter {
-                removeTime(it.dueDate) == removeTime(Timestamp.now().toDate())
+            binding.rvTodayTasks.adapter = HomeTaskAdapter(todayTaskItems.filter { task ->
+                removeTime(task.dueDate) == removeTime(Timestamp.now().toDate())
             }) {selected ->
-                val taskDetailFragment = TaskDetailFragment.newInstance(it!![selected.idx])
+                val taskDetailFragment = TaskDetailFragment.newInstance(tasks!![selected.idx])
                 (activity as? DashboardActivity)?.loadFragment(taskDetailFragment)
 
             }
 
-            binding.rvIncoming.adapter = HomeTaskAdapter(todayTaskItems.filter {
-                removeTime(it.dueDate) > removeTime(Timestamp.now().toDate())
+            binding.rvIncoming.adapter = HomeTaskAdapter(todayTaskItems.filter { task ->
+                removeTime(task.dueDate) > removeTime(Timestamp.now().toDate())
             }) { selected ->
-                val taskDetailFragment = TaskDetailFragment.newInstance(it!![selected.idx])
+                val taskDetailFragment = TaskDetailFragment.newInstance(tasks!![selected.idx])
                 (activity as? DashboardActivity)?.loadFragment(taskDetailFragment)
             }
         }
-
-
-        projViewModel.getAllUserTasks()
-
-        viewModel.getUserData()
-        // retrieve user's project
-        projViewModel.getUserProjects()
-
-        projViewModel.getTaskForDay(Timestamp.now().toDate(), true)
-
-        // Nhap vao profile image de den trang profile
-        binding.profileImage.setOnClickListener {
-            val intent: Intent = Intent(requireContext(), ProfileActivity::class.java)
-            intent.putExtra("userInfo", userInfo)
-            startActivity(intent)
-        }
-
-        return root
     }
 
 
